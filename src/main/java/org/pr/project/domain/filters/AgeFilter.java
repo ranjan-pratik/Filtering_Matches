@@ -16,8 +16,8 @@ public class AgeFilter implements AbstractFilter {
 	}
 
 	@Override
-	public List<Match> runFilter(List<Match> matches) {
-		return matches.stream().filter(c -> {
+	public List<Match> runFilter(List<Match> candidates) {
+		return candidates.stream().filter(c -> {
 			return ageBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getAge()));
 		}).collect(Collectors.toList());
 	}

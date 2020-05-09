@@ -16,8 +16,8 @@ public class CompatibilityFilter implements AbstractFilter {
 	}
 
 	@Override
-	public List<Match> runFilter(List<Match> matches) {
-		return matches.stream().filter(c -> {
+	public List<Match> runFilter(List<Match> candidates) {
+		return candidates.stream().filter(c -> {
 			return CompatibilityBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getCompatibilityScore()));
 		}).collect(Collectors.toList());
 	}

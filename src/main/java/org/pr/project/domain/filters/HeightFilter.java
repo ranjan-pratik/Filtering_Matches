@@ -16,8 +16,8 @@ public class HeightFilter implements AbstractFilter {
 	}
 
 	@Override
-	public List<Match> runFilter(List<Match> matches) {
-		return matches.stream().filter(c -> {
+	public List<Match> runFilter(List<Match> candidates) {
+		return candidates.stream().filter(c -> {
 			return heightBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getHeight()));
 		}).collect(Collectors.toList());
 	}

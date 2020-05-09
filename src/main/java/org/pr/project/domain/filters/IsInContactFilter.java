@@ -8,8 +8,8 @@ import org.pr.project.domain.Match;
 public class IsInContactFilter implements AbstractFilter {
 
 	@Override
-	public List<Match> runFilter(List<Match> matches) {
-		return matches.stream().filter(c -> {
+	public List<Match> runFilter(List<Match> candidates) {
+		return candidates.stream().filter(c -> {
 			return (c.getContactsExchanged() != null && c.getContactsExchanged() > 0);
 		}).collect(Collectors.toList());
 	}

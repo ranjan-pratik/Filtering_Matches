@@ -19,9 +19,10 @@ public class Match implements Serializable {
 	private Double compatibilityScore;
 	private Integer contactsExchanged;
 	private Boolean isFavourite;
+	private City city;
 
 	public Match(String displayName, String jobTitle, Integer age, Religion religion, String photoURI, Double height,
-			Double compatibilityScore, Integer contactsExchanged, Boolean isFavourite) {
+			Double compatibilityScore, Integer contactsExchanged, Boolean isFavourite, City city) {
 		super();
 		this.displayName = displayName;
 		this.jobTitle = jobTitle;
@@ -32,7 +33,7 @@ public class Match implements Serializable {
 		this.compatibilityScore = compatibilityScore;
 		this.contactsExchanged = contactsExchanged;
 		this.isFavourite = isFavourite;
-
+		this.city = city;
 	}
 
 	public String getDisplayName() {
@@ -105,6 +106,14 @@ public class Match implements Serializable {
 
 	public void setContactsExchanged(Integer contactsExchanged) {
 		this.contactsExchanged = contactsExchanged;
+	}
+
+	public City getCity() {
+		return city;
+	}
+
+	public void setCity(City city) {
+		this.city = city;
 	}
 
 }
