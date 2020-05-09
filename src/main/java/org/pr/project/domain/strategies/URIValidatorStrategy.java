@@ -14,7 +14,5 @@ public class URIValidatorStrategy implements StringFilteringStrategy {
 	public boolean apply(String candidate) {
 		return RestCallerUtility.validateURL(candidate);
 	}
-	
-
 
 }

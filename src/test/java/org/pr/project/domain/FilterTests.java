@@ -10,6 +10,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.pr.project.domain.Match.Religion;
 import org.pr.project.domain.filters.AgeFilter;
+import org.pr.project.domain.filters.AndFilter;
 import org.pr.project.domain.filters.CompatibilityFilter;
 import org.pr.project.domain.filters.DistanceInKmFilter;
 import org.pr.project.domain.filters.HasImageFilter;
@@ -28,22 +29,28 @@ public class FilterTests {
 	public void initMatchList() {
 		matches = new ArrayList<Match>();
 
-		Match candidate1 = new Match("Candidate1", "some Job", 23, Religion.Christian, imageURI, 163d, 15d, 5, true, new City("someCity", 51.509865, -0.118092));
+		Match candidate1 = new Match("Candidate1", "some Job", 23, Religion.Christian, imageURI, 163d, 15d, 5, true,
+				new City("someCity", 51.509865, -0.118092));
 		matches.add(candidate1);
 
-		Match candidate2 = new Match("Candidate2", "some other Job", 56, Religion.Agnostic, imageURI, 155d, 65d, 0, false, new City("someOtherCity", 23.509865, 0.158092));
+		Match candidate2 = new Match("Candidate2", "some other Job", 56, Religion.Agnostic, imageURI, 155d, 65d, 0,
+				false, new City("someOtherCity", 23.509865, 0.158092));
 		matches.add(candidate2);
 
-		Match candidate3 = new Match("Candidate3", "third Job", 29, Religion.Islam, imageURI, 133d, 95d, 0, null, new City("otherCity", 51.500065, -0.100092));
+		Match candidate3 = new Match("Candidate3", "third Job", 29, Religion.Islam, imageURI, 133d, 95d, 0, null,
+				new City("otherCity", 51.500065, -0.100092));
 		matches.add(candidate3);
 
-		Match candidate4 = new Match("Candidate4", "some Job", 45, Religion.Christian, "", 173d, 95d, null, false, new City("thisCity", 55.509865, -0.198092));
+		Match candidate4 = new Match("Candidate4", "some Job", 45, Religion.Christian, "", 173d, 95d, null, false,
+				new City("thisCity", 55.509865, -0.198092));
 		matches.add(candidate4);
 
-		Match candidate5 = new Match("Candidate5", "some other Job", 33, Religion.Athiest, null, 143d, 67d, 2,  false, new City("thatCity", 11.509865, -53.538092));
+		Match candidate5 = new Match("Candidate5", "some other Job", 33, Religion.Athiest, null, 143d, 67d, 2, false,
+				new City("thatCity", 11.509865, -53.538092));
 		matches.add(candidate5);
 
-		Match candidate6 = new Match("Candidate6", "third Job", 51, Religion.Islam, imageURI, 169d, 56d, 3, true, new City("someCity", 51.509865, -0.118092));
+		Match candidate6 = new Match("Candidate6", "third Job", 51, Religion.Islam, imageURI, 169d, 56d, 3, true,
+				new City("someCity", 51.509865, -0.118092));
 		matches.add(candidate6);
 	}
 
@@ -114,9 +121,6 @@ public class FilterTests {
 		HasImageFilter hasImageFilter = new HasImageFilter();
 		List<Match> filteredMatches = hasImageFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 4);
-		
-		NotFilter notHasImageFilter = new NotFilter(hasImageFilter);
-		assertEquals(notHasImageFilter.runFilter(matches).size(), 2);
 
 		hasImageFilter = new HasImageFilter();
 		HasImageFilter anotherHasImageFilter = new HasImageFilter();
@@ -132,7 +136,7 @@ public class FilterTests {
 		List<Match> filteredMatches = isInContactFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 3);
 	}
-	
+
 	@Test
 	public void test_applyIsFavouriteFilter() {
 
@@ -144,25 +148,47 @@ public class FilterTests {
 	@Test
 	public void test_applyDistanceFilter() {
 
-		DistanceInKmFilter distanceInKMFilter = new DistanceInKmFilter(new NumberBetweenBoundsStrategy(new BigDecimal(20), new BigDecimal(30)), new City("someCity", 51.509865, -0.118092));
+		DistanceInKmFilter distanceInKMFilter = new DistanceInKmFilter(
+				new NumberBetweenBoundsStrategy(new BigDecimal(20), new BigDecimal(30)),
+				new City("someCity", 51.509865, -0.118092));
 		List<Match> filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
-		
-		distanceInKMFilter = new DistanceInKmFilter(new NumberBetweenBoundsStrategy(new BigDecimal(0), new BigDecimal(1.6551639194378014)), new City("otherCity", 51.500065, -0.100092));
+
+		distanceInKMFilter = new DistanceInKmFilter(
+				new NumberBetweenBoundsStrategy(new BigDecimal(0), new BigDecimal(1.6551639194378014)),
+				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 3);
 
-		distanceInKMFilter = new DistanceInKmFilter(new NumberBetweenBoundsStrategy(new BigDecimal(50), new BigDecimal(20)), new City("otherCity", 51.500065, -0.100092));
+		distanceInKMFilter = new DistanceInKmFilter(
+				new NumberBetweenBoundsStrategy(new BigDecimal(50), new BigDecimal(20)),
+				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
-		distanceInKMFilter = new DistanceInKmFilter(new NumberBetweenBoundsStrategy(new BigDecimal(51), new BigDecimal(56)), new City("otherCity", 51.500065, -0.100092));
+		distanceInKMFilter = new DistanceInKmFilter(
+				new NumberBetweenBoundsStrategy(new BigDecimal(51), new BigDecimal(56)),
+				new City("otherCity", 51.500065, -0.100092));
 		DistanceInKmFilter anotherDistanceInKMFilter = new DistanceInKmFilter(
 				new NumberBetweenBoundsStrategy(new BigDecimal(45), new BigDecimal(51)),
 				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = anotherDistanceInKMFilter.runFilter(distanceInKMFilter.runFilter(matches));
 		assertEquals(filteredMatches.size(), 0);
 
+	}
+
+	@Test
+	public void test_combinationFilters() {
+
+		HasImageFilter hasImageFilter = new HasImageFilter();
+
+		NotFilter notHasImageFilter = new NotFilter(hasImageFilter);
+		assertEquals(notHasImageFilter.runFilter(matches).size(), 2);
+
+		IsInContactFilter isInContactFilter = new IsInContactFilter();
+
+		AndFilter hasImageAndInContact = new AndFilter(hasImageFilter, isInContactFilter);
+		assertEquals(hasImageAndInContact.runFilter(matches).size(), 2);
 	}
 
 }
