@@ -7,18 +7,18 @@ import java.util.stream.Collectors;
 import org.pr.project.domain.Match;
 import org.pr.project.domain.strategies.NumericFilteringStrategy;
 
-public class AgeFilter implements AbstractFilter {
+public class HeightFilter implements AbstractFilter {
 
-	private final NumericFilteringStrategy ageBetweenBoundsFilteringStrategy;
-	
-	public AgeFilter(NumericFilteringStrategy ageBetweenBoundsStategy) {
-		this.ageBetweenBoundsFilteringStrategy = ageBetweenBoundsStategy;
+	private final NumericFilteringStrategy heightBetweenBoundsFilteringStrategy;
+
+	public HeightFilter(NumericFilteringStrategy heightBetweenBoundsStategy) {
+		this.heightBetweenBoundsFilteringStrategy = heightBetweenBoundsStategy;
 	}
 
 	@Override
 	public List<Match> runFilter(List<Match> matches) {
 		return matches.stream().filter(c -> {
-			return ageBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getAge()));
+			return heightBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getHeight()));
 		}).collect(Collectors.toList());
 	}
 
