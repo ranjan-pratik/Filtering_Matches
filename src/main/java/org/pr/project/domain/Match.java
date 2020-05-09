@@ -1,6 +1,7 @@
 package org.pr.project.domain;
 
 import java.io.Serializable;
+import java.net.URL;
 
 public class Match implements Serializable {
 	
@@ -14,13 +15,15 @@ public class Match implements Serializable {
 	private String jobTitle;
 	private Integer age;
 	private Religion religion;
+	private String photoURI;
 	
-	public Match(String displayName, String jobTitle, Integer age, Religion religion) {
+	public Match(String displayName, String jobTitle, Integer age, Religion religion, String photoURI) {
 		super();
 		this.displayName = displayName;
 		this.jobTitle = jobTitle;
 		this.age = age;
 		this.religion = religion;
+		this.photoURI = photoURI;
 	}
 
 	public String getDisplayName() {
