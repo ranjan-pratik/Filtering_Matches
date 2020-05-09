@@ -10,6 +10,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.pr.project.domain.Match;
 import org.pr.project.domain.Match.Religion;
+import org.pr.project.domain.filters.AgeFilter;
+import org.pr.project.domain.strategies.FilteringStrategy;
+import org.pr.project.domain.strategies.IntegerBetweenBoundsStrategy;
 
 public class AlgorithmicTests {
 
@@ -41,5 +44,17 @@ public class AlgorithmicTests {
 	@Test
 	public void checkMatchInit() {
 		assertEquals(matches.size(), 6);
+	}
+	
+	@Test
+	public void test_applyAgeFilter() {
+		
+		FilteringStrategy ageBetweenBoundsStategy = new IntegerBetweenBoundsStrategy(20, 30);
+		
+		AgeFilter ageFilter = new AgeFilter(ageBetweenBoundsStategy);
+		
+		List<Match> filteredMatches = ageFilter.applyFilter(matches);
+		
+		assertEquals(filteredMatches, 2);
 	}
 }
