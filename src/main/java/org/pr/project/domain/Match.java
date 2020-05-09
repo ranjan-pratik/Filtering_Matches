@@ -1,7 +1,6 @@
 package org.pr.project.domain;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 public class Match implements Serializable {
 
@@ -18,9 +17,11 @@ public class Match implements Serializable {
 	private String photoURI;
 	private Double height;
 	private Double compatibilityScore;
+	private Integer contactsExchanged;
+	private Boolean isFavourite;
 
 	public Match(String displayName, String jobTitle, Integer age, Religion religion, String photoURI, Double height,
-			Double compatibilityScore) {
+			Double compatibilityScore, Integer contactsExchanged, Boolean isFavourite) {
 		super();
 		this.displayName = displayName;
 		this.jobTitle = jobTitle;
@@ -29,6 +30,9 @@ public class Match implements Serializable {
 		this.photoURI = photoURI;
 		this.height = height;
 		this.compatibilityScore = compatibilityScore;
+		this.contactsExchanged = contactsExchanged;
+		this.isFavourite = isFavourite;
+
 	}
 
 	public String getDisplayName() {
@@ -85,6 +89,22 @@ public class Match implements Serializable {
 
 	public void setCompatibilityScore(Double compatibilityScore) {
 		this.compatibilityScore = compatibilityScore;
+	}
+
+	public Integer getContactsExchanged() {
+		return this.contactsExchanged;
+	}
+
+	public Boolean getIsFavourite() {
+		return isFavourite;
+	}
+
+	public void setIsFavourite(Boolean isFavourite) {
+		this.isFavourite = isFavourite;
+	}
+
+	public void setContactsExchanged(Integer contactsExchanged) {
+		this.contactsExchanged = contactsExchanged;
 	}
 
 }

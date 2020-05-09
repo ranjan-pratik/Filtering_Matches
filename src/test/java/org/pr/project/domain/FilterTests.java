@@ -11,7 +11,10 @@ import org.junit.Test;
 import org.pr.project.domain.Match.Religion;
 import org.pr.project.domain.filters.AgeFilter;
 import org.pr.project.domain.filters.CompatibilityFilter;
+import org.pr.project.domain.filters.HasImageFilter;
 import org.pr.project.domain.filters.HeightFilter;
+import org.pr.project.domain.filters.IsFavouriteFilter;
+import org.pr.project.domain.filters.IsInContactFilter;
 import org.pr.project.domain.strategies.NumberBetweenBoundsStrategy;
 
 public class FilterTests {
@@ -23,22 +26,22 @@ public class FilterTests {
 	public void initMatchList() {
 		matches = new ArrayList<Match>();
 
-		Match candidate1 = new Match("Candidate1", "some Job", 23, Religion.Christian, imageURI, 163d, 15d);
+		Match candidate1 = new Match("Candidate1", "some Job", 23, Religion.Christian, imageURI, 163d, 15d, 5, true);
 		matches.add(candidate1);
 
-		Match candidate2 = new Match("Candidate2", "some other Job", 56, Religion.Agnostic, imageURI, 155d, 65d);
+		Match candidate2 = new Match("Candidate2", "some other Job", 56, Religion.Agnostic, imageURI, 155d, 65d, 0, false);
 		matches.add(candidate2);
 
-		Match candidate3 = new Match("Candidate3", "third Job", 29, Religion.Islam, imageURI, 133d, 95d);
+		Match candidate3 = new Match("Candidate3", "third Job", 29, Religion.Islam, imageURI, 133d, 95d, 0, null);
 		matches.add(candidate3);
 
-		Match candidate4 = new Match("Candidate4", "some Job", 45, Religion.Christian, "", 173d, 95d);
+		Match candidate4 = new Match("Candidate4", "some Job", 45, Religion.Christian, "", 173d, 95d, null, false);
 		matches.add(candidate4);
 
-		Match candidate5 = new Match("Candidate5", "some other Job", 33, Religion.Athiest, null, 143d, 67d);
+		Match candidate5 = new Match("Candidate5", "some other Job", 33, Religion.Athiest, null, 143d, 67d, 2,  false);
 		matches.add(candidate5);
 
-		Match candidate6 = new Match("Candidate6", "third Job", 51, Religion.Islam, imageURI, 169d, 56d);
+		Match candidate6 = new Match("Candidate6", "third Job", 51, Religion.Islam, imageURI, 169d, 56d, 3, true);
 		matches.add(candidate6);
 	}
 
@@ -102,5 +105,36 @@ public class FilterTests {
 		assertEquals(filteredMatches.size(), 1);
 
 	}
+
+	@Test
+	public void test_applyHasImageFilter() {
+
+		HasImageFilter hasImageFilter = new HasImageFilter();
+		List<Match> filteredMatches = hasImageFilter.runFilter(matches);
+		assertEquals(filteredMatches.size(), 4);
+
+		hasImageFilter = new HasImageFilter();
+		HasImageFilter anotherHasImageFilter = new HasImageFilter();
+		filteredMatches = anotherHasImageFilter.runFilter(hasImageFilter.runFilter(matches));
+		assertEquals(filteredMatches.size(), 4);
+
+	}
+
+	@Test
+	public void test_applyIsInContactFilter() {
+
+		IsInContactFilter isInContactFilter = new IsInContactFilter();
+		List<Match> filteredMatches = isInContactFilter.runFilter(matches);
+		assertEquals(filteredMatches.size(), 3);
+	}
+	
+	@Test
+	public void test_applyIsFavouriteFilter() {
+
+		IsFavouriteFilter isFavouriteFilter = new IsFavouriteFilter();
+		List<Match> filteredMatches = isFavouriteFilter.runFilter(matches);
+		assertEquals(filteredMatches.size(), 2);
+	}
+
 
 }
