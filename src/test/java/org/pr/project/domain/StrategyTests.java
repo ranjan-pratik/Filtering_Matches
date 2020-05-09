@@ -46,4 +46,14 @@ public class StrategyTests {
 		assertTrue(ageBetweenBoundsStategy.apply(0));
 	}
 	
+	@Test
+	public void test_applyIntegerBetweenBoundsStartegy_InvertedBounds() {
+		IntegerFilteringStrategy ageBetweenBoundsStategy = new IntegerBetweenBoundsStrategy(50, 20);
+		assertFalse(ageBetweenBoundsStategy.apply(null));
+		assertFalse(ageBetweenBoundsStategy.apply(-30));
+		assertFalse(ageBetweenBoundsStategy.apply(30));
+		assertFalse(ageBetweenBoundsStategy.apply(10));
+		assertFalse(ageBetweenBoundsStategy.apply(60));
+	}
+	
 }
