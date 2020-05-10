@@ -45,7 +45,7 @@ public class FilterTests {
 				new City("thisCity", 55.509865, -0.198092));
 		matches.add(candidate4);
 
-		Match candidate5 = new Match("Candidate5", "some other Job", 33, Religion.Athiest, null, 143d, 67d, 2, false,
+		Match candidate5 = new Match("Candidate5", "some other Job", 33, Religion.Atheist, null, 143d, 67d, 2, false,
 				new City("thatCity", 11.509865, -53.538092));
 		matches.add(candidate5);
 

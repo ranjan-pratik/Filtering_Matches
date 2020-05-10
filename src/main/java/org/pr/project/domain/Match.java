@@ -2,25 +2,54 @@ package org.pr.project.domain;
 
 import java.io.Serializable;
 
+import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+@Component
+@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class Match implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	public enum Religion {
-		Christian, Islam, Agnostic, Athiest
+		Christian, Islam, Agnostic, Atheist, Buddhist, Jewish
 	}
 
+	@JsonProperty("display_name")
 	private String displayName;
+	
+	@JsonProperty("job_title")
 	private String jobTitle;
+	
+	@JsonProperty("age")
 	private Integer age;
+	
+	@JsonProperty("religion")
 	private Religion religion;
+	
+	@JsonProperty("main_photo")
 	private String photoURI;
+	
+	@JsonProperty("height_in_cm")
 	private Double height;
+	
+	@JsonProperty("compatibility_score")
 	private Double compatibilityScore;
+	
+	@JsonProperty("contacts_exchanged")
 	private Integer contactsExchanged;
+	
+	@JsonProperty("favourite")
 	private Boolean isFavourite;
+	
+	@JsonProperty("city")
 	private City city;
 
+	public Match() {}
+	
 	public Match(String displayName, String jobTitle, Integer age, Religion religion, String photoURI, Double height,
 			Double compatibilityScore, Integer contactsExchanged, Boolean isFavourite, City city) {
 		super();

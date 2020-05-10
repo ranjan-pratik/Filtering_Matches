@@ -24,7 +24,7 @@ public class DistanceInKmFilter implements AbstractFilter {
 		return candidates.stream().filter(c -> {
 			if (c.getCity() == null)
 				return false;
-			System.out.println(c.getDisplayName() + " :: " + getDistanceOnSurface(c.getCity()) + " KM");
+			// System.out.println(c.getDisplayName() + " :: " + getDistanceOnSurface(c.getCity()) + " KM");
 			return distanceInKmBetweenBoundsFilteringStrategy.apply(new BigDecimal(getDistanceOnSurface(c.getCity())));
 		}).collect(Collectors.toList());
 	}
