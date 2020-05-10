@@ -31,7 +31,7 @@ public class MatchFilterService {
 		
 		List<Match> matches = null;
 		try {
-			mapper.configure(DeserializationFeature.FAIL_ON_IGNORED_PROPERTIES, false);
+			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 			FilteredListVO all = mapper.readValue(content, FilteredListVO.class);
 			matches = all.getMatches();
 		} catch (JsonProcessingException e) {
