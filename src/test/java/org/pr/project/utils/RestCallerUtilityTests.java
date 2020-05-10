@@ -15,7 +15,7 @@ public class RestCallerUtilityTests {
 	@Test
 	public void test_invalidURL() {
 		assertFalse(RestCallerUtility.validateURL(""));
-		assertFalse(RestCallerUtility.validateURL("http://"));
+		assertFalse(RestCallerUtility.validateURL("http://invalid/api"));
 	}
 
 }

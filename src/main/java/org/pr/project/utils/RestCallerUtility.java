@@ -11,6 +11,7 @@ import org.apache.http.impl.client.DefaultHttpClient;
 public class RestCallerUtility {
 
 	public static boolean validateURL(final String URL) {
+		if (URL == null || URL.length() == 0) return false;
 		try {
 			HttpClient client = new DefaultHttpClient();
 			HttpGet request = new HttpGet(URL);
