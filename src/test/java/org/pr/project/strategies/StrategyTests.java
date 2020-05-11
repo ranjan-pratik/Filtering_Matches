@@ -1,4 +1,4 @@
-package org.pr.project.domain;
+package org.pr.project.strategies;
 
 
 import static org.junit.Assert.assertFalse;
@@ -7,8 +7,6 @@ import static org.junit.Assert.assertTrue;
 import java.math.BigDecimal;
 
 import org.junit.Test;
-import org.pr.project.domain.strategies.NumberBetweenBoundsStrategy;
-import org.pr.project.domain.strategies.NumericFilteringStrategy;
 
 public class StrategyTests {
 

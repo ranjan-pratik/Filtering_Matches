@@ -1,4 +1,4 @@
-package org.pr.project.domain.strategies;
+package org.pr.project.strategies;
 
 public interface StringFilteringStrategy extends FilteringStrategy<String>{
 

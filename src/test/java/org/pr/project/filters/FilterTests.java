@@ -1,4 +1,4 @@
-package org.pr.project.domain;
+package org.pr.project.filters;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,17 +8,10 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.pr.project.domain.City;
+import org.pr.project.domain.Match;
 import org.pr.project.domain.Match.Religion;
-import org.pr.project.domain.filters.AgeFilter;
-import org.pr.project.domain.filters.AndFilter;
-import org.pr.project.domain.filters.CompatibilityFilter;
-import org.pr.project.domain.filters.DistanceInKmFilter;
-import org.pr.project.domain.filters.HasImageFilter;
-import org.pr.project.domain.filters.HeightFilter;
-import org.pr.project.domain.filters.IsFavouriteFilter;
-import org.pr.project.domain.filters.IsInContactFilter;
-import org.pr.project.domain.filters.NotFilter;
-import org.pr.project.domain.strategies.NumberBetweenBoundsStrategy;
+import org.pr.project.strategies.NumberBetweenBoundsStrategy;
 
 public class FilterTests {
 

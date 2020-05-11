@@ -17,6 +17,7 @@ import org.pr.project.domain.Match;
 import org.pr.project.domain.Match.Religion;
 import org.pr.project.service.MatchFilterService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -26,7 +27,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(FilterController.class)
-@ContextConfiguration(classes=MatchFilterApplication.class)
+@ContextConfiguration(classes= {MatchFilterApplication.class, EmbeddedMongoAutoConfiguration.class})
 public class RestLayerTests {
 
 	@Autowired

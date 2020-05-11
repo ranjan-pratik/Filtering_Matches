@@ -1,4 +1,4 @@
-package org.pr.project.domain.strategies;
+package org.pr.project.strategies;
 
 import org.pr.project.utils.RestCallerUtility;
 

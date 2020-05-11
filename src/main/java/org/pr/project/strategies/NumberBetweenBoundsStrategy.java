@@ -1,6 +1,9 @@
-package org.pr.project.domain.strategies;
+package org.pr.project.strategies;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import org.springframework.data.mongodb.core.query.Criteria;
 
 public class NumberBetweenBoundsStrategy implements NumericFilteringStrategy {
 
@@ -41,5 +44,20 @@ public class NumberBetweenBoundsStrategy implements NumericFilteringStrategy {
 			return false;
 		}
 		return true;
+	}
+	
+	@Override
+	public List<Criteria> apply(String field, List<Criteria> original) {
+		if (lowerBound != null && upperBound != null && lowerBound.compareTo(upperBound) > 0) {
+			return original;
+		}
+		if (lowerBound != null) {
+			original.add(Criteria.where(field).gte(lowerBound));
+	    }
+	    if (upperBound != null) {
+	    	original.add(Criteria.where(field).lte(upperBound));
+	    }
+	    
+	    return original;
 	}
 }

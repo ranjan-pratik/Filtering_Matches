@@ -1,4 +1,4 @@
-package org.pr.project.domain.filters;
+package org.pr.project.filters;
 
 import java.util.List;
 
