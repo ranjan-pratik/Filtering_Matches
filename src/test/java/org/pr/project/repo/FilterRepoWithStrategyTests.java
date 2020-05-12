@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 @ContextConfiguration(classes = { MatchFilterApplication.class })
-public class FilterRepoWithNumericStrategyTests {
+public class FilterRepoWithStrategyTests {
 
 	@Autowired
 	MatchFilterRepository matchFilterRepository;

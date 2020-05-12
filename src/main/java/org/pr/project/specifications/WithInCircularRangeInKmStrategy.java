@@ -1,32 +1,24 @@
-package org.pr.project.strategies;
+package org.pr.project.specifications;
 
 import java.util.List;
 
+import org.pr.project.strategies.NumberBetweenBoundsStrategy;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.NearQuery;
 
-public class NumberBetweenBoundsStrategy implements NumericFilteringStrategy {
 
-	protected final Double lowerBound;
-	protected final Double upperBound;
+public class WithInCircularRangeInKmStrategy extends NumberBetweenBoundsStrategy {
+
+	protected final Point point;
 	
-	public NumberBetweenBoundsStrategy() {
-		this.lowerBound = new Double(Integer.MIN_VALUE);
-		this.upperBound = new Double(Integer.MAX_VALUE);
-	}
-	
-	public NumberBetweenBoundsStrategy(Double lowerBoundInclusive, Double upperBoundInclusive) {
-		this.lowerBound = lowerBoundInclusive;
-		this.upperBound = upperBoundInclusive;
+	public WithInCircularRangeInKmStrategy(final Point centre, Double lowerBoundInclusive, Double upperBoundInclusive) {
+		super(lowerBoundInclusive, upperBoundInclusive);
+		this.point = centre;
 	}
 	
-	public Double getLowerBound() {
-		return lowerBound;
-	}
-
-	public Double getUpperBound() {
-		return upperBound;
-	}
-
 	@Override
 	public boolean apply(Double candidate) {
 		// if no bound is set, return true, even if candidate is null
@@ -52,12 +44,13 @@ public class NumberBetweenBoundsStrategy implements NumericFilteringStrategy {
 		if (lowerBound != null && upperBound != null && lowerBound.compareTo(upperBound) > 0) 
 			return original;
 		else if (lowerBound == null) 
-			original.add(Criteria.where(field).lte(upperBound));
+			original.add(Criteria.where(field).nearSphere(point).maxDistance(upperBound));
 	    else if (upperBound == null) 
-	    	original.add(Criteria.where(field).gte(lowerBound));
+	    	original.add(Criteria.where(field).nearSphere(point).minDistance(lowerBound));
 	    else 
-	    	original.add(Criteria.where(field).lte(upperBound).gte(lowerBound));
-	    
+	    	original.add(Criteria.where(field).nearSphere(point).minDistance(lowerBound).maxDistance(upperBound));
+		
 	    return original;
 	}
+
 }

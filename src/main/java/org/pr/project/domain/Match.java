@@ -4,12 +4,18 @@ import java.io.Serializable;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Document
 public class Match implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -17,8 +23,12 @@ public class Match implements Serializable {
 	public enum Religion {
 		Christian, Islam, Agnostic, Atheist, Buddhist, Jewish
 	}
+	
+	@JsonIgnore
+	@Id private String id;
 
 	@JsonProperty("display_name")
+	@Indexed(name = "display_name_index", direction = IndexDirection.ASCENDING)
 	private String displayName;
 	
 	@JsonProperty("job_title")
