@@ -1,6 +1,5 @@
 package org.pr.project.filters;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +17,7 @@ public class HeightFilter implements AbstractFilter {
 	@Override
 	public List<Match> runFilter(List<Match> candidates) {
 		return candidates.stream().filter(c -> {
-			return heightBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getHeight()));
+			return heightBetweenBoundsFilteringStrategy.apply(new Double(c.getHeight()));
 		}).collect(Collectors.toList());
 	}
 

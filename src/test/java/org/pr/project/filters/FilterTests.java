@@ -2,7 +2,6 @@ package org.pr.project.filters;
 
 import static org.junit.Assert.assertEquals;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,17 +49,17 @@ public class FilterTests {
 	@Test
 	public void test_applyAgeFilter() {
 
-		AgeFilter ageFilter = new AgeFilter(new NumberBetweenBoundsStrategy(new BigDecimal(20), new BigDecimal(30)));
+		AgeFilter ageFilter = new AgeFilter(new NumberBetweenBoundsStrategy(new Double(20), new Double(30)));
 		List<Match> filteredMatches = ageFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 2);
 
-		ageFilter = new AgeFilter(new NumberBetweenBoundsStrategy(new BigDecimal(50), new BigDecimal(20)));
+		ageFilter = new AgeFilter(new NumberBetweenBoundsStrategy(new Double(50), new Double(20)));
 		filteredMatches = ageFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
-		ageFilter = new AgeFilter(new NumberBetweenBoundsStrategy(new BigDecimal(51), new BigDecimal(56)));
+		ageFilter = new AgeFilter(new NumberBetweenBoundsStrategy(new Double(51), new Double(56)));
 		AgeFilter anotherAgeFilter = new AgeFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(45), new BigDecimal(51)));
+				new NumberBetweenBoundsStrategy(new Double(45), new Double(51)));
 		filteredMatches = anotherAgeFilter.runFilter(ageFilter.runFilter(matches));
 		assertEquals(filteredMatches.size(), 1);
 
@@ -70,17 +69,17 @@ public class FilterTests {
 	public void test_applyHeightFilter() {
 
 		HeightFilter heightFilter = new HeightFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(140), new BigDecimal(200)));
+				new NumberBetweenBoundsStrategy(new Double(140), new Double(200)));
 		List<Match> filteredMatches = heightFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 5);
 
-		heightFilter = new HeightFilter(new NumberBetweenBoundsStrategy(new BigDecimal(500), new BigDecimal(20)));
+		heightFilter = new HeightFilter(new NumberBetweenBoundsStrategy(new Double(500), new Double(20)));
 		filteredMatches = heightFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
-		heightFilter = new HeightFilter(new NumberBetweenBoundsStrategy(new BigDecimal(100), new BigDecimal(163)));
+		heightFilter = new HeightFilter(new NumberBetweenBoundsStrategy(new Double(100), new Double(163)));
 		HeightFilter anotherHeightFilter = new HeightFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(143), new BigDecimal(200)));
+				new NumberBetweenBoundsStrategy(new Double(143), new Double(200)));
 		filteredMatches = anotherHeightFilter.runFilter(heightFilter.runFilter(matches));
 		assertEquals(filteredMatches.size(), 3);
 
@@ -90,19 +89,19 @@ public class FilterTests {
 	public void test_applyCompatibilityFilter() {
 
 		CompatibilityFilter compatibilityFilter = new CompatibilityFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(10), new BigDecimal(100)));
+				new NumberBetweenBoundsStrategy(new Double(10), new Double(100)));
 		List<Match> filteredMatches = compatibilityFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 6);
 
 		compatibilityFilter = new CompatibilityFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(30), new BigDecimal(10)));
+				new NumberBetweenBoundsStrategy(new Double(30), new Double(10)));
 		filteredMatches = compatibilityFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
 		compatibilityFilter = new CompatibilityFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(25), new BigDecimal(65)));
+				new NumberBetweenBoundsStrategy(new Double(25), new Double(65)));
 		CompatibilityFilter anotherCompatibilityFilter = new CompatibilityFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(65), new BigDecimal(75)));
+				new NumberBetweenBoundsStrategy(new Double(65), new Double(75)));
 		filteredMatches = anotherCompatibilityFilter.runFilter(compatibilityFilter.runFilter(matches));
 		assertEquals(filteredMatches.size(), 1);
 
@@ -142,28 +141,28 @@ public class FilterTests {
 	public void test_applyDistanceFilter() {
 
 		DistanceInKmFilter distanceInKMFilter = new DistanceInKmFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(20), new BigDecimal(30)),
+				new NumberBetweenBoundsStrategy(new Double(20), new Double(30)),
 				new City("someCity", 51.509865, -0.118092));
 		List<Match> filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
 		distanceInKMFilter = new DistanceInKmFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(0), new BigDecimal(1.6551639194378014)),
+				new NumberBetweenBoundsStrategy(new Double(0), new Double(1.6551639194378014)),
 				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 3);
 
 		distanceInKMFilter = new DistanceInKmFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(50), new BigDecimal(20)),
+				new NumberBetweenBoundsStrategy(new Double(50), new Double(20)),
 				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
 		distanceInKMFilter = new DistanceInKmFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(51), new BigDecimal(56)),
+				new NumberBetweenBoundsStrategy(new Double(51), new Double(56)),
 				new City("otherCity", 51.500065, -0.100092));
 		DistanceInKmFilter anotherDistanceInKMFilter = new DistanceInKmFilter(
-				new NumberBetweenBoundsStrategy(new BigDecimal(45), new BigDecimal(51)),
+				new NumberBetweenBoundsStrategy(new Double(45), new Double(51)),
 				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = anotherDistanceInKMFilter.runFilter(distanceInKMFilter.runFilter(matches));
 		assertEquals(filteredMatches.size(), 0);

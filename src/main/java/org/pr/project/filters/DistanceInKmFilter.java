@@ -1,6 +1,5 @@
 package org.pr.project.filters;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -25,7 +24,7 @@ public class DistanceInKmFilter implements AbstractFilter {
 			if (c.getCity() == null)
 				return false;
 			// System.out.println(c.getDisplayName() + " :: " + getDistanceOnSurface(c.getCity()) + " KM");
-			return distanceInKmBetweenBoundsFilteringStrategy.apply(new BigDecimal(getDistanceOnSurface(c.getCity())));
+			return distanceInKmBetweenBoundsFilteringStrategy.apply(new Double(getDistanceOnSurface(c.getCity())));
 		}).collect(Collectors.toList());
 	}
 

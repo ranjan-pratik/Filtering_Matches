@@ -14,11 +14,11 @@ public class AndSpecification extends AbstractSpecification {
 	}
 
 	@Override
-	public Criteria getSpecification() {
+	public Criteria getCriteria() {
 		List<Criteria> andCriteria = new ArrayList<Criteria>();
 
 		for (AbstractSpecification onePredicate : allAndPredicates) {
-			Criteria c = onePredicate.getSpecification();
+			Criteria c = onePredicate.getCriteria();
 			andCriteria.add(c);
 		}
 		return new Criteria().andOperator(andCriteria.toArray(new Criteria[andCriteria.size()]));

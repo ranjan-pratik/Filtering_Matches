@@ -1,6 +1,5 @@
 package org.pr.project.filters;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -18,7 +17,7 @@ public class CompatibilityFilter implements AbstractFilter {
 	@Override
 	public List<Match> runFilter(List<Match> candidates) {
 		return candidates.stream().filter(c -> {
-			return CompatibilityBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getCompatibilityScore()));
+			return CompatibilityBetweenBoundsFilteringStrategy.apply(new Double(c.getCompatibilityScore()));
 		}).collect(Collectors.toList());
 	}
 
