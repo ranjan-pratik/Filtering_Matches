@@ -23,6 +23,8 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
 import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -32,6 +34,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 @RunWith(SpringRunner.class)
 @DataMongoTest
 @ContextConfiguration(classes = { MatchFilterApplication.class })
+@DirtiesContext(classMode = ClassMode.BEFORE_CLASS)
 public class FilterRepositoryTests {
 
 	@Autowired
