@@ -1,14 +1,5 @@
 package org.pr.project.specifications;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.Test;
-import org.pr.project.strategies.PossitiveNumberStrategy;
-import org.springframework.data.mongodb.core.query.Criteria;
-
 public class RangeSpecificationTests {
 
 	// @Test

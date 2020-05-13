@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.pr.project.strategies.NumberGreaterThanStrategy;
 import org.pr.project.strategies.PossitiveNumberStrategy;
 import org.springframework.data.mongodb.core.query.Criteria;
 

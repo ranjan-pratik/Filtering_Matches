@@ -1,13 +1,9 @@
-package org.pr.project.specifications;
+package org.pr.project.strategies;
 
 import java.util.List;
 
-import org.pr.project.strategies.NumberBetweenBoundsStrategy;
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metrics;
 import org.springframework.data.geo.Point;
 import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.NearQuery;
 
 
 public class WithInCircularRangeInKmStrategy extends NumberBetweenBoundsStrategy {

@@ -2,7 +2,6 @@ package org.pr.project.repo;
 
 import java.util.List;
 
-import org.pr.project.domain.City;
 import org.pr.project.domain.Match;
 import org.springframework.data.geo.Distance;
 import org.springframework.data.geo.Point;
@@ -13,4 +12,5 @@ import org.springframework.stereotype.Repository;
 public interface MatchFilterRepository extends MongoRepository<Match, String>, CustomMatchCriteriaRepository<Match> {
 
 	List<Match> findByCityPositionNear(Point p, Distance d);
+	
 }
