@@ -8,17 +8,18 @@ import java.nio.file.Path;
 public class FileReaderUtil {
 
 	public static String read(final Path filePath) {
-		if (filePath == null) return null;
-		StringBuilder sb = new StringBuilder();
+		if (filePath == null)
+			return null;
+		final StringBuilder sb = new StringBuilder();
 		try (FileReader reader = new FileReader(filePath.toFile())) {
 			int i;
-			 while ((i=reader.read()) != -1) 
-				 sb.append((char) i); 
-			
-		} catch (FileNotFoundException e) {
+			while ((i = reader.read()) != -1)
+				sb.append((char) i);
+
+		} catch (final FileNotFoundException e) {
 			e.printStackTrace();
 			return null;
-		} catch (IOException e) {
+		} catch (final IOException e) {
 			e.printStackTrace();
 			return null;
 		}

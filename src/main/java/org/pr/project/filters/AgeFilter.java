@@ -1,25 +1,35 @@
 package org.pr.project.filters;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.pr.project.domain.Match;
+import org.pr.project.specifications.AgeSpecification;
 import org.pr.project.strategies.NumericFilteringStrategy;
 
-public class AgeFilter implements AbstractFilter {
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 
-	private final NumericFilteringStrategy ageBetweenBoundsFilteringStrategy;
-	
-	public AgeFilter(NumericFilteringStrategy ageBetweenBoundsStategy) {
-		this.ageBetweenBoundsFilteringStrategy = ageBetweenBoundsStategy;
+@JsonTypeName("age")
+public class AgeFilter extends AbstractFilter<Double> {
+
+	private final NumericFilteringStrategy ageFilteringStrategy;
+
+	@JsonCreator
+	public AgeFilter(final NumericFilteringStrategy ageFilteringStrategy) {
+		this.ageFilteringStrategy = ageFilteringStrategy;
 	}
 
 	@Override
-	public List<Match> runFilter(List<Match> candidates) {
+	public List<Match> runFilter(final List<Match> candidates) {
 		return candidates.stream().filter(c -> {
-			return ageBetweenBoundsFilteringStrategy.apply(new BigDecimal(c.getAge()));
+			return ageFilteringStrategy.apply(new Double(c.getAge()));
 		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public AgeSpecification getSpecification() {
+		return new AgeSpecification(ageFilteringStrategy);
 	}
 
 }

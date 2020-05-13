@@ -8,22 +8,13 @@ public abstract class AbstractSpecification<T> {
 	protected String field;
 	protected FilteringStrategy<T> strategy;
 
-	public abstract Criteria getSpecification();
+	public abstract Criteria getCriteria();
 
 	public String getField() {
 		return field;
 	}
 
-	public void setField(String field) {
-		this.field = field;
-	}
-
 	public FilteringStrategy<T> getStrategy() {
 		return strategy;
 	}
-
-	public void setStrategy(FilteringStrategy<T> strategy) {
-		this.strategy = strategy;
-	}
-
 }

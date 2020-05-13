@@ -63,6 +63,9 @@ public class IntegrationTests {
 		assertThat(unfilteredList.getMatches()).isNotNull();
 		assertThat(unfilteredList.getMatches().size()).isGreaterThan(0);
 		assertThat(unfilteredList.getMatches().get(0).getDisplayName()).isNotNull();
+		assertThat(unfilteredList.getMatches().get(0).getCity().getName()).isNotNull();
+		assertThat(unfilteredList.getMatches().get(0).getCity().getLat()).isNotNull();
+		assertThat(unfilteredList.getMatches().get(0).getCity().getPosition()).isNotNull();
 	}
 
 }

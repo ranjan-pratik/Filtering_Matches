@@ -4,12 +4,18 @@ import java.io.Serializable;
 
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.IndexDirection;
+import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+@Document
 public class Match implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -18,40 +24,49 @@ public class Match implements Serializable {
 		Christian, Islam, Agnostic, Atheist, Buddhist, Jewish
 	}
 
+	@JsonIgnore
+	@Id
+	private String id;
+
 	@JsonProperty("display_name")
+	@Indexed(name = "display_name_index", direction = IndexDirection.ASCENDING)
 	private String displayName;
-	
+
 	@JsonProperty("job_title")
 	private String jobTitle;
-	
+
 	@JsonProperty("age")
 	private Integer age;
-	
+
 	@JsonProperty("religion")
 	private Religion religion;
-	
+
 	@JsonProperty("main_photo")
 	private String photoURI;
-	
+
 	@JsonProperty("height_in_cm")
 	private Double height;
-	
+
 	@JsonProperty("compatibility_score")
 	private Double compatibilityScore;
-	
+
 	@JsonProperty("contacts_exchanged")
 	private Integer contactsExchanged;
-	
+
 	@JsonProperty("favourite")
 	private Boolean isFavourite;
-	
+
 	@JsonProperty("city")
 	private City city;
 
-	public Match() {}
-	
-	public Match(String displayName, String jobTitle, Integer age, Religion religion, String photoURI, Double height,
-			Double compatibilityScore, Integer contactsExchanged, Boolean isFavourite, City city) {
+	public Match() {
+	}
+
+	public Match(final String displayName, final String jobTitle,
+			final Integer age, final Religion religion, final String photoURI,
+			final Double height, final Double compatibilityScore,
+			final Integer contactsExchanged, final Boolean isFavourite,
+			final City city) {
 		super();
 		this.displayName = displayName;
 		this.jobTitle = jobTitle;
@@ -69,7 +84,7 @@ public class Match implements Serializable {
 		return displayName;
 	}
 
-	public void setDisplayName(String displayName) {
+	public void setDisplayName(final String displayName) {
 		this.displayName = displayName;
 	}
 
@@ -77,7 +92,7 @@ public class Match implements Serializable {
 		return jobTitle;
 	}
 
-	public void setJobTitle(String jobTitle) {
+	public void setJobTitle(final String jobTitle) {
 		this.jobTitle = jobTitle;
 	}
 
@@ -85,7 +100,7 @@ public class Match implements Serializable {
 		return age;
 	}
 
-	public void setAge(Integer age) {
+	public void setAge(final Integer age) {
 		this.age = age;
 	}
 
@@ -93,7 +108,7 @@ public class Match implements Serializable {
 		return religion;
 	}
 
-	public void setReligion(Religion religion) {
+	public void setReligion(final Religion religion) {
 		this.religion = religion;
 	}
 
@@ -101,7 +116,7 @@ public class Match implements Serializable {
 		return photoURI;
 	}
 
-	public void setPhotoURI(String photoURI) {
+	public void setPhotoURI(final String photoURI) {
 		this.photoURI = photoURI;
 	}
 
@@ -109,7 +124,7 @@ public class Match implements Serializable {
 		return height;
 	}
 
-	public void setHeight(Double height) {
+	public void setHeight(final Double height) {
 		this.height = height;
 	}
 
@@ -117,23 +132,23 @@ public class Match implements Serializable {
 		return compatibilityScore;
 	}
 
-	public void setCompatibilityScore(Double compatibilityScore) {
+	public void setCompatibilityScore(final Double compatibilityScore) {
 		this.compatibilityScore = compatibilityScore;
 	}
 
 	public Integer getContactsExchanged() {
-		return this.contactsExchanged;
+		return contactsExchanged;
 	}
 
 	public Boolean getIsFavourite() {
 		return isFavourite;
 	}
 
-	public void setIsFavourite(Boolean isFavourite) {
+	public void setIsFavourite(final Boolean isFavourite) {
 		this.isFavourite = isFavourite;
 	}
 
-	public void setContactsExchanged(Integer contactsExchanged) {
+	public void setContactsExchanged(final Integer contactsExchanged) {
 		this.contactsExchanged = contactsExchanged;
 	}
 
@@ -141,7 +156,7 @@ public class Match implements Serializable {
 		return city;
 	}
 
-	public void setCity(City city) {
+	public void setCity(final City city) {
 		this.city = city;
 	}
 
