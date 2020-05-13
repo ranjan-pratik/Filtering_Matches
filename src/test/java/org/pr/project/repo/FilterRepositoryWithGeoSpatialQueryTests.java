@@ -12,7 +12,7 @@ import org.pr.project.MatchFilterApplication;
 import org.pr.project.domain.City;
 import org.pr.project.domain.Match;
 import org.pr.project.domain.Match.Religion;
-import org.pr.project.specifications.InKMRangeSpecification;
+import org.pr.project.specifications.RangeInKmSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.data.geo.Distance;
@@ -96,11 +96,38 @@ public class FilterRepositoryWithGeoSpatialQueryTests {
 		Distance d2 = new Distance(200, Metrics.KILOMETERS);
 		List<Match> exclusions = matchFilterRepository.findByCityPositionNear(thisCityPoint, d2);
 
-		InKMRangeSpecification specification = new InKMRangeSpecification();
+		RangeInKmSpecification specification = new RangeInKmSpecification();
 		GeoResults<Match> matches = matchFilterRepository
 				.findByCustomGeoRangeWithin(specification.getNearQuery("location", thisCityPoint, 200d, 500d));
 
 		assertThat(matches).isNotNull();
 		assertThat(matches.getContent().size()).isEqualTo(expected.size() - exclusions.size());
+	}
+	
+	@Test
+	public void test_dataLoad_geoSpatialQuery_BetweenRangeInverted_shouldFindNone() {
+
+		Point thisCityPoint = new Point(55.509865, -0.198092);
+
+		RangeInKmSpecification specification = new RangeInKmSpecification();
+		GeoResults<Match> matches = matchFilterRepository
+				.findByCustomGeoRangeWithin(specification.getNearQuery("location", thisCityPoint, 500d, 200d));
+
+		assertThat(matches).isNotNull();
+		assertThat(matches.getContent().size()).isEqualTo(0);
+	}
+	
+	@Test
+	public void test_dataLoad_geoSpatialQuery_BetweenRange_0To1Km_shouldFindItself() {
+
+		Point thisCityPoint = new Point(55.509865, -0.198092);
+
+		RangeInKmSpecification specification = new RangeInKmSpecification();
+		GeoResults<Match> matches = matchFilterRepository
+				.findByCustomGeoRangeWithin(specification.getNearQuery("location", thisCityPoint, 0d, 1d));
+
+		assertThat(matches).isNotNull();
+		assertThat(matches.getContent().size()).isEqualTo(1);
+		assertThat(matches.getContent().get(0).getContent().getDisplayName()).isEqualTo("Candidate4");
 	}
 }

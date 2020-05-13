@@ -12,6 +12,7 @@ import org.pr.project.MatchFilterApplication;
 import org.pr.project.domain.FilteredListVO;
 import org.pr.project.domain.Match;
 import org.pr.project.specifications.AgeSpecification;
+import org.pr.project.specifications.AndSpecification;
 import org.pr.project.specifications.CompatibilitySpecification;
 import org.pr.project.specifications.HasImageSpecification;
 import org.pr.project.specifications.HeightSpecification;
@@ -41,7 +42,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RunWith(SpringRunner.class)
 @DataMongoTest
-@ContextConfiguration(classes = { MatchFilterApplication.class })
+@ContextConfiguration(classes = {MatchFilterApplication.class})
 @DirtiesContext(classMode = ClassMode.BEFORE_CLASS)
 public class FilterRepoWithStrategyTests {
 
@@ -61,8 +62,10 @@ public class FilterRepoWithStrategyTests {
 		if (!dataCreatedFlag) {
 			String content = FileReaderUtil.read(Paths.get(filePath));
 			ObjectMapper mapper = new ObjectMapper();
-			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, true);
-			FilteredListVO unfilteredList = mapper.readValue(content, FilteredListVO.class);
+			mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+					true);
+			FilteredListVO unfilteredList = mapper.readValue(content,
+					FilteredListVO.class);
 			assertThat(unfilteredList).isNotNull();
 			matchFilterRepository.saveAll(unfilteredList.getMatches());
 			dataCreatedFlag = true;
@@ -80,7 +83,8 @@ public class FilterRepoWithStrategyTests {
 	@Test
 	public void test_filetrByName_useMongoTemplate() {
 		Query query = new Query();
-		query.addCriteria(Criteria.where("displayName").in("Caroline", "Sharon"));
+		query.addCriteria(
+				Criteria.where("displayName").in("Caroline", "Sharon"));
 		List<Match> matches = mongoTemplate.find(query, Match.class);
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(3);
@@ -96,7 +100,8 @@ public class FilterRepoWithStrategyTests {
 
 	@Test
 	public void test_filetrByAge_useRepository() {
-		Criteria query = Criteria.where("age").lte(new Double(40)).gte(new Double(30));
+		Criteria query = Criteria.where("age").lte(new Double(40))
+				.gte(new Double(30));
 		List<Match> matches = matchFilterRepository.findByCustomCriteria(query);
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(13);
@@ -106,7 +111,8 @@ public class FilterRepoWithStrategyTests {
 	public void test_filetrByAge_useAgeSpecification() {
 		List<Match> matches = matchFilterRepository.findAll();
 		assertThat(matches.size()).isEqualTo(25);
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(new Double(30), new Double(40));
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(30), new Double(40));
 		AgeSpecification specification = new AgeSpecification(fileringStartegy);
 		Criteria query = specification.getCriteria();
 		matches = matchFilterRepository.findByCustomCriteria(query);
@@ -116,20 +122,26 @@ public class FilterRepoWithStrategyTests {
 
 	@Test
 	public void test_filetrByAge_useInvalidAgeSpecification() {
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(new Double(50), new Double(40));
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(50), new Double(40));
 		AgeSpecification specification = new AgeSpecification(fileringStartegy);
-		List<Match> matches = matchFilterRepository.findByCustomCriteria(specification.getCriteria());
+		List<Match> matches = matchFilterRepository
+				.findByCustomCriteria(specification.getCriteria());
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(25);
 	}
 
 	@Test
 	public void test_filetrByCompatibility_useCompatibilitySpecification() {
-		Criteria query = Criteria.where("compatibilityScore").gte(new Double(0.5)).lte(new Double(1.00));
-		List<Match> expected = matchFilterRepository.findByCustomCriteria(query);
+		Criteria query = Criteria.where("compatibilityScore")
+				.gte(new Double(0.5)).lte(new Double(1.00));
+		List<Match> expected = matchFilterRepository
+				.findByCustomCriteria(query);
 
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(new Double(0.5), new Double(1.00));
-		CompatibilitySpecification specification = new CompatibilitySpecification(fileringStartegy);
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(0.5), new Double(1.00));
+		CompatibilitySpecification specification = new CompatibilitySpecification(
+				fileringStartegy);
 		Criteria crit = specification.getCriteria();
 		List<Match> matches = matchFilterRepository.findByCustomCriteria(crit);
 		assertThat(matches).isNotNull();
@@ -138,29 +150,39 @@ public class FilterRepoWithStrategyTests {
 
 	@Test
 	public void test_filetrByCompatibility_useInvertedCompatibilitySpecification() {
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(new Double(50), new Double(40));
-		CompatibilitySpecification specification = new CompatibilitySpecification(fileringStartegy);
-		List<Match> matches = matchFilterRepository.findByCustomCriteria(specification.getCriteria());
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(50), new Double(40));
+		CompatibilitySpecification specification = new CompatibilitySpecification(
+				fileringStartegy);
+		List<Match> matches = matchFilterRepository
+				.findByCustomCriteria(specification.getCriteria());
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(25);
 	}
 
 	@Test
 	public void test_filetrByCompatibility_useInvalidCompatibilitySpecification() {
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(null, null);
-		CompatibilitySpecification specification = new CompatibilitySpecification(fileringStartegy);
-		List<Match> matches = matchFilterRepository.findByCustomCriteria(specification.getCriteria());
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				null, null);
+		CompatibilitySpecification specification = new CompatibilitySpecification(
+				fileringStartegy);
+		List<Match> matches = matchFilterRepository
+				.findByCustomCriteria(specification.getCriteria());
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(25);
 	}
 
 	@Test
 	public void test_filetrByHeight_useHeightSpecification() {
-		Criteria query = Criteria.where("height").gte(new Double(160.5)).lte(new Double(190));
-		List<Match> expected = matchFilterRepository.findByCustomCriteria(query);
+		Criteria query = Criteria.where("height").gte(new Double(160.5))
+				.lte(new Double(190));
+		List<Match> expected = matchFilterRepository
+				.findByCustomCriteria(query);
 
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(new Double(160.5), new Double(190));
-		HeightSpecification specification = new HeightSpecification(fileringStartegy);
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(160.5), new Double(190));
+		HeightSpecification specification = new HeightSpecification(
+				fileringStartegy);
 		Criteria crit = specification.getCriteria();
 		List<Match> matches = matchFilterRepository.findByCustomCriteria(crit);
 		assertThat(matches).isNotNull();
@@ -169,31 +191,38 @@ public class FilterRepoWithStrategyTests {
 
 	@Test
 	public void test_filetrByHeight_useInvertedHeightSpecification() {
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(new Double(50), new Double(40));
-		HeightSpecification specification = new HeightSpecification(fileringStartegy);
-		List<Match> matches = matchFilterRepository.findByCustomCriteria(specification.getCriteria());
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(50), new Double(40));
+		HeightSpecification specification = new HeightSpecification(
+				fileringStartegy);
+		List<Match> matches = matchFilterRepository
+				.findByCustomCriteria(specification.getCriteria());
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(25);
 	}
 
 	@Test
 	public void test_filetrByHeight_useInvalidHeightSpecification() {
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(null, null);
-		HeightSpecification specification = new HeightSpecification(fileringStartegy);
-		List<Match> matches = matchFilterRepository.findByCustomCriteria(specification.getCriteria());
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				null, null);
+		HeightSpecification specification = new HeightSpecification(
+				fileringStartegy);
+		List<Match> matches = matchFilterRepository
+				.findByCustomCriteria(specification.getCriteria());
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(25);
 	}
-	
-
 
 	@Test
 	public void test_filetrByHasImage_useHasImageSpecification() {
 		Criteria query = Criteria.where("photoURI").ne(null);
-		List<Match> expected = matchFilterRepository.findByCustomCriteria(query);
-		System.out.println(query.getCriteriaObject().toString()+ " found -" + expected.size());
+		List<Match> expected = matchFilterRepository
+				.findByCustomCriteria(query);
+		System.out.println(query.getCriteriaObject().toString() + " found -"
+				+ expected.size());
 		IsExistStrategy fileringStartegy = new IsExistStrategy();
-		HasImageSpecification specification = new HasImageSpecification(fileringStartegy);
+		HasImageSpecification specification = new HasImageSpecification(
+				fileringStartegy);
 		Criteria crit = specification.getCriteria();
 		List<Match> matches = matchFilterRepository.findByCustomCriteria(crit);
 		assertThat(matches).isNotNull();
@@ -203,10 +232,13 @@ public class FilterRepoWithStrategyTests {
 	@Test
 	public void test_filetrByHeight_useIsInContactSpecification() {
 		Criteria query = Criteria.where("contactsExchanged").gt(0d);
-		List<Match> expected = matchFilterRepository.findByCustomCriteria(query);
-		System.out.println(query.getCriteriaObject().toString()+ " found -" + expected.size());
+		List<Match> expected = matchFilterRepository
+				.findByCustomCriteria(query);
+		System.out.println(query.getCriteriaObject().toString() + " found -"
+				+ expected.size());
 		NumericFilteringStrategy fileringStartegy = new PossitiveNumberStrategy();
-		IsInContactSpecification specification = new IsInContactSpecification(fileringStartegy);
+		IsInContactSpecification specification = new IsInContactSpecification(
+				fileringStartegy);
 		Criteria crit = specification.getCriteria();
 		List<Match> matches = matchFilterRepository.findByCustomCriteria(crit);
 		assertThat(matches).isNotNull();
@@ -215,27 +247,78 @@ public class FilterRepoWithStrategyTests {
 
 	@Test
 	public void test_filetrByIsInContact_useInvalidIsInContactSpecification() {
-		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(null, null);
-		IsInContactSpecification specification = new IsInContactSpecification(fileringStartegy);
-		List<Match> matches = matchFilterRepository.findByCustomCriteria(specification.getCriteria());
+		NumericFilteringStrategy fileringStartegy = new NumberBetweenBoundsStrategy(
+				null, null);
+		IsInContactSpecification specification = new IsInContactSpecification(
+				fileringStartegy);
+		List<Match> matches = matchFilterRepository
+				.findByCustomCriteria(specification.getCriteria());
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(25);
 	}
 
 	@Test
 	public void test_filetrByIsFavourite_useIsFavouriteSpecification() {
-		Criteria query = new Criteria().andOperator(Criteria.where("isFavourite").exists(true),
+		Criteria query = new Criteria().andOperator(
+				Criteria.where("isFavourite").exists(true),
 				Criteria.where("isFavourite").ne(false));
-		List<Match> expected = matchFilterRepository.findByCustomCriteria(query);
-		System.out.println(query.getCriteriaObject().toString()+ " found -" + expected.size());
+		List<Match> expected = matchFilterRepository
+				.findByCustomCriteria(query);
+		System.out.println(query.getCriteriaObject().toString() + " found -"
+				+ expected.size());
 		IsTrueStrategy fileringStartegy = new IsTrueStrategy();
-		IsFavouriteSpecification specification = new IsFavouriteSpecification(fileringStartegy);
+		IsFavouriteSpecification specification = new IsFavouriteSpecification(
+				fileringStartegy);
 		Criteria crit = specification.getCriteria();
 		List<Match> matches = matchFilterRepository.findByCustomCriteria(crit);
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(expected.size());
 	}
 
+	@Test
+	public void test_filetrByIsFavourite_useMultipleSpecifications() {
+		Criteria query = new Criteria().andOperator(
+				Criteria.where("isFavourite").exists(true),
+				Criteria.where("isFavourite").ne(false),
+				Criteria.where("height").gte(160d).lte(200d),
+				Criteria.where("age").gte(30).lte(60),
+				Criteria.where("compatibilityScore").gte(.3).lte(.99));
+		List<Match> expected = matchFilterRepository
+				.findByCustomCriteria(query);
+		System.out.println(
+				":::: Local Crieria - " + query.getCriteriaObject().toString()
+						+ " found -" + expected.size());
 
-	
+		IsTrueStrategy isTrueFileringStartegy = new IsTrueStrategy();
+		IsFavouriteSpecification isTrueSpecification = new IsFavouriteSpecification(
+				isTrueFileringStartegy);
+
+		NumericFilteringStrategy heightFileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(160), new Double(200));
+		HeightSpecification heightSpecification = new HeightSpecification(
+				heightFileringStartegy);
+
+		NumericFilteringStrategy ageFileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(30), new Double(60));
+		AgeSpecification ageSpecification = new AgeSpecification(
+				ageFileringStartegy);
+
+		NumericFilteringStrategy compatibilitFileringStartegy = new NumberBetweenBoundsStrategy(
+				new Double(0.3), new Double(.99));
+		CompatibilitySpecification compatibilitySpecification = new CompatibilitySpecification(
+				compatibilitFileringStartegy);
+
+		AndSpecification andSpecification = new AndSpecification(
+				isTrueSpecification, heightSpecification, ageSpecification,
+				compatibilitySpecification);
+
+		Criteria crit = andSpecification.getCriteria();
+		List<Match> matches = matchFilterRepository.findByCustomCriteria(crit);
+		System.out.println(
+				":::: Spec Crieria - " + crit.getCriteriaObject().toString()
+						+ " found -" + matches.size());
+		assertThat(matches).isNotNull();
+		assertThat(matches.size()).isEqualTo(expected.size());
+	}
+
 }

@@ -9,8 +9,11 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface MatchFilterRepository extends MongoRepository<Match, String>, CustomMatchCriteriaRepository<Match> {
+public interface MatchFilterRepository
+		extends
+			MongoRepository<Match, String>,
+			CustomMatchCriteriaRepository<Match> {
 
 	List<Match> findByCityPositionNear(Point p, Distance d);
-	
+
 }

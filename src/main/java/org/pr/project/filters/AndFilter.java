@@ -4,22 +4,21 @@ import java.util.List;
 
 import org.pr.project.domain.Match;
 
-public class AndFilter implements AbstractFilter {
+public class AndFilter extends AbstractFilter<Object> {
 
 	private final AbstractFilter[] allMemberFilters;
-	
-	public AndFilter(AbstractFilter... allPredicates) {
+
+	public AndFilter(final AbstractFilter... allPredicates) {
 		allMemberFilters = allPredicates;
 	}
-	
+
 	@Override
-	public List<Match> runFilter(List<Match> candidates) {
+	public List<Match> runFilter(final List<Match> candidates) {
 		List<Match> filteredList = candidates;
-		for (AbstractFilter oneFilter : allMemberFilters) {
+		for (final AbstractFilter oneFilter : allMemberFilters) {
 			filteredList = oneFilter.runFilter(filteredList);
 		}
 		return filteredList;
 	}
-
 
 }

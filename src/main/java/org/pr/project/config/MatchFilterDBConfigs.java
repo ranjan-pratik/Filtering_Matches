@@ -16,18 +16,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MatchFilterDBConfigs {
 
 	public Jackson2RepositoryPopulatorFactoryBean repositoryPopulator() {
-		ObjectMapper mapper = new ObjectMapper();
+		final ObjectMapper mapper = new ObjectMapper();
 		mapper.addMixIn(GeoJsonPoint.class, GeoJsonPointMixin.class);
-		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+		mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,
+				false);
 
-		Jackson2RepositoryPopulatorFactoryBean factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
-		factoryBean.setResources(new Resource[] { new ClassPathResource("matches.json") });
+		final Jackson2RepositoryPopulatorFactoryBean factoryBean = new Jackson2RepositoryPopulatorFactoryBean();
+		factoryBean.setResources(
+				new Resource[]{new ClassPathResource("matches.json")});
 		factoryBean.setMapper(mapper);
 
 		return factoryBean;
 	}
-	
+
 	static abstract class GeoJsonPointMixin {
-		GeoJsonPointMixin(@JsonProperty("lon") double x, @JsonProperty("lat") double y) {}
+		GeoJsonPointMixin(@JsonProperty("lon") final double x,
+				@JsonProperty("lat") final double y) {
+		}
 	}
 }

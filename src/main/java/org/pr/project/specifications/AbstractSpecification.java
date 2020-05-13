@@ -17,5 +17,4 @@ public abstract class AbstractSpecification<T> {
 	public FilteringStrategy<T> getStrategy() {
 		return strategy;
 	}
-
 }

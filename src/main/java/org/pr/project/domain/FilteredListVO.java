@@ -27,7 +27,7 @@ public class FilteredListVO implements Serializable {
 		return matches;
 	}
 
-	public void setMatches(List<Match> matches) {
+	public void setMatches(final List<Match> matches) {
 		this.matches = matches;
 	}
 

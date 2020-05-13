@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface CustomMatchCriteriaRepository<Match> {
 
 	List<Match> findByCustomCriteria(final Criteria criteria);
-	
+
 	GeoResults<Match> findByCustomGeoRangeWithin(NearQuery nearQuery);
-	
+
 }

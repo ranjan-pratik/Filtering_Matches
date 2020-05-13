@@ -8,12 +8,13 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 
-public class CustomCityCriteriaRepositoryImpl{
-	
+public class CustomCityCriteriaRepositoryImpl {
+
 	@Autowired
 	MongoTemplate mongoTemplate;
-	
-	public List<City> findByCustomCriteria(Criteria criteria) {
-		return mongoTemplate.find(new Query().addCriteria(criteria), City.class);
+
+	public List<City> findByCustomCriteria(final Criteria criteria) {
+		return mongoTemplate.find(new Query().addCriteria(criteria),
+				City.class);
 	}
 }

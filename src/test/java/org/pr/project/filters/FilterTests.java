@@ -10,7 +10,10 @@ import org.junit.Test;
 import org.pr.project.domain.City;
 import org.pr.project.domain.Match;
 import org.pr.project.domain.Match.Religion;
+import org.pr.project.strategies.IsExistStrategy;
+import org.pr.project.strategies.IsTrueStrategy;
 import org.pr.project.strategies.NumberBetweenBoundsStrategy;
+import org.pr.project.strategies.PossitiveNumberStrategy;
 
 public class FilterTests {
 
@@ -109,13 +112,13 @@ public class FilterTests {
 
 	@Test
 	public void test_applyHasImageFilter() {
-
-		HasImageFilter hasImageFilter = new HasImageFilter();
+		IsExistStrategy strategy = new IsExistStrategy();
+		HasImageFilter hasImageFilter = new HasImageFilter(strategy);
 		List<Match> filteredMatches = hasImageFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 4);
 
-		hasImageFilter = new HasImageFilter();
-		HasImageFilter anotherHasImageFilter = new HasImageFilter();
+		hasImageFilter = new HasImageFilter(strategy);
+		HasImageFilter anotherHasImageFilter = new HasImageFilter(strategy);
 		filteredMatches = anotherHasImageFilter.runFilter(hasImageFilter.runFilter(matches));
 		assertEquals(filteredMatches.size(), 4);
 
@@ -123,16 +126,16 @@ public class FilterTests {
 
 	@Test
 	public void test_applyIsInContactFilter() {
-
-		IsInContactFilter isInContactFilter = new IsInContactFilter();
+		PossitiveNumberStrategy possitiveNumberOnlyStrategy = new PossitiveNumberStrategy();
+		IsInContactFilter isInContactFilter = new IsInContactFilter(possitiveNumberOnlyStrategy);
 		List<Match> filteredMatches = isInContactFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 3);
 	}
 
 	@Test
 	public void test_applyIsFavouriteFilter() {
-
-		IsFavouriteFilter isFavouriteFilter = new IsFavouriteFilter();
+		IsTrueStrategy isTrueStrategy = new IsTrueStrategy();
+		IsFavouriteFilter isFavouriteFilter = new IsFavouriteFilter(isTrueStrategy);
 		List<Match> filteredMatches = isFavouriteFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 2);
 	}
@@ -140,28 +143,28 @@ public class FilterTests {
 	@Test
 	public void test_applyDistanceFilter() {
 
-		DistanceInKmFilter distanceInKMFilter = new DistanceInKmFilter(
+		RangeInKmFilter distanceInKMFilter = new RangeInKmFilter(
 				new NumberBetweenBoundsStrategy(new Double(20), new Double(30)),
 				new City("someCity", 51.509865, -0.118092));
 		List<Match> filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
-		distanceInKMFilter = new DistanceInKmFilter(
+		distanceInKMFilter = new RangeInKmFilter(
 				new NumberBetweenBoundsStrategy(new Double(0), new Double(1.6551639194378014)),
 				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 3);
 
-		distanceInKMFilter = new DistanceInKmFilter(
+		distanceInKMFilter = new RangeInKmFilter(
 				new NumberBetweenBoundsStrategy(new Double(50), new Double(20)),
 				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = distanceInKMFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 0);
 
-		distanceInKMFilter = new DistanceInKmFilter(
+		distanceInKMFilter = new RangeInKmFilter(
 				new NumberBetweenBoundsStrategy(new Double(51), new Double(56)),
 				new City("otherCity", 51.500065, -0.100092));
-		DistanceInKmFilter anotherDistanceInKMFilter = new DistanceInKmFilter(
+		RangeInKmFilter anotherDistanceInKMFilter = new RangeInKmFilter(
 				new NumberBetweenBoundsStrategy(new Double(45), new Double(51)),
 				new City("otherCity", 51.500065, -0.100092));
 		filteredMatches = anotherDistanceInKMFilter.runFilter(distanceInKMFilter.runFilter(matches));
@@ -171,13 +174,14 @@ public class FilterTests {
 
 	@Test
 	public void test_combinationFilters() {
+		IsExistStrategy strategy = new IsExistStrategy();
+		HasImageFilter hasImageFilter = new HasImageFilter(strategy);
 
-		HasImageFilter hasImageFilter = new HasImageFilter();
-
-		NotFilter notHasImageFilter = new NotFilter(hasImageFilter);
+		NotFilter<String> notHasImageFilter = new NotFilter(hasImageFilter);
 		assertEquals(notHasImageFilter.runFilter(matches).size(), 2);
 
-		IsInContactFilter isInContactFilter = new IsInContactFilter();
+		PossitiveNumberStrategy possitiveNumberOnlyStrategy = new PossitiveNumberStrategy();
+		IsInContactFilter isInContactFilter = new IsInContactFilter(possitiveNumberOnlyStrategy);
 
 		AndFilter hasImageAndInContact = new AndFilter(hasImageFilter, isInContactFilter);
 		assertEquals(hasImageAndInContact.runFilter(matches).size(), 2);

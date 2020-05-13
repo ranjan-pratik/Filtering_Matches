@@ -20,34 +20,35 @@ import com.fasterxml.jackson.annotation.JsonRootName;
 public class City implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	@JsonProperty("name")
 	private String name;
-	
+
 	@JsonProperty("lat")
 	private Double lat;
-	
+
 	@JsonProperty("lon")
 	private Double lon;
-	
+
 	@JsonIgnore
 	private Double[] position = new Double[2];
-	
-	public City() {}
 
-	public City(String name, double lat, double lon) {
+	public City() {
+	}
+
+	public City(final String name, final double lat, final double lon) {
 		this.name = name;
 		this.lat = new Double(lat);
 		this.lon = new Double(lon);
-		this.position[0] = lat;
-		this.position[1] = lon;
+		position[0] = lat;
+		position[1] = lon;
 	}
 
 	public String getName() {
 		return name;
 	}
 
-	public void setName(String name) {
+	public void setName(final String name) {
 		this.name = name;
 	}
 
@@ -55,27 +56,27 @@ public class City implements Serializable {
 		return lat;
 	}
 
-	public void setLat(Double lat) {
+	public void setLat(final Double lat) {
 		this.lat = lat;
-		this.position[0] = lat;
+		position[0] = lat;
 	}
 
 	public Double getLon() {
 		return lon;
 	}
 
-	public void setLon(Double lon) {
+	public void setLon(final Double lon) {
 		this.lon = lon;
-		this.position[1] = lon;
-	}
-	
-	public Double[] getPosition() {
-		return this.position;
+		position[1] = lon;
 	}
 
-	protected void setPosition(Double[] position) {
+	public Double[] getPosition() {
+		return position;
+	}
+
+	protected void setPosition(final Double[] position) {
 		this.position = position;
-		this.lat = position[0];
-		this.lon = position[1];
+		lat = position[0];
+		lon = position[1];
 	}
 }
