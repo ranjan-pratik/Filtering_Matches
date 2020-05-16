@@ -5,19 +5,19 @@ import java.util.stream.Collectors;
 
 import org.pr.project.domain.Match;
 import org.pr.project.specifications.HasImageSpecification;
-import org.pr.project.strategies.IsExistStrategy;
+import org.pr.project.strategies.StringIsNotNullStrategy;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("hasImage")
 public class HasImageFilter extends AbstractFilter<String> {
 
-	private final IsExistStrategy imageExistsStrategy;
-
 	@JsonCreator
-	public HasImageFilter(final IsExistStrategy imageExistsStrategy) {
-		this.imageExistsStrategy = imageExistsStrategy;
+	public HasImageFilter(
+			@JsonProperty("strategy") final StringIsNotNullStrategy imageExistsStrategy) {
+		this.strategy = imageExistsStrategy;
 	}
 
 	@Override
@@ -29,7 +29,7 @@ public class HasImageFilter extends AbstractFilter<String> {
 
 	@Override
 	public HasImageSpecification getSpecification() {
-		return new HasImageSpecification(imageExistsStrategy);
+		return new HasImageSpecification((StringIsNotNullStrategy) this.strategy);
 	}
 
 }

@@ -25,8 +25,6 @@ public class RangeInKmFilter extends AbstractFilter<Double> {
 		return candidates.stream().filter(c -> {
 			if (c.getCity() == null)
 				return false;
-			// System.out.println(c.getDisplayName() + " :: " +
-			// getDistanceOnSurface(c.getCity()) + " KM");
 			return distanceInKmBetweenBoundsFilteringStrategy
 					.apply(new Double(getDistanceOnSurface(c.getCity())));
 		}).collect(Collectors.toList());

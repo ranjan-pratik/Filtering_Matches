@@ -3,13 +3,13 @@ package org.pr.project.specifications;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.pr.project.strategies.IsExistStrategy;
+import org.pr.project.strategies.StringIsNotNullStrategy;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 public class HasImageSpecification extends AbstractSpecification<String> {
 
 	public HasImageSpecification(
-			final IsExistStrategy isExistFilteringStrategy) {
+			final StringIsNotNullStrategy isExistFilteringStrategy) {
 		field = "photoURI";
 		strategy = isExistFilteringStrategy;
 	}

@@ -7,8 +7,13 @@ import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class RestCallerUtility {
+
+	private static final Logger logger = LoggerFactory
+			.getLogger(RestCallerUtility.class);
 
 	public static boolean validateURL(final String URL) {
 		if (URL == null || URL.length() == 0)
@@ -21,8 +26,7 @@ public class RestCallerUtility {
 				return true;
 
 		} catch (final IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.warn("Error while making rest api call.");
 			return false;
 		}
 		return false;

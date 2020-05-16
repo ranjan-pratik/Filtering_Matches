@@ -6,8 +6,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName("isExist")
-public class IsExistStrategy implements StringFilteringStrategy {
+@JsonTypeName("isNotNull")
+public class StringIsNotNullStrategy implements StringFilteringStrategy {
 
 	@Override
 	public boolean apply(final String candidate) {

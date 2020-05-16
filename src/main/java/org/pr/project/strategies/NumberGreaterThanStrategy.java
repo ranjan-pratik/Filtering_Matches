@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("numberGreaterThan")
@@ -13,7 +14,8 @@ public class NumberGreaterThanStrategy implements NumericFilteringStrategy {
 	private final Double baseNumber;
 
 	@JsonCreator
-	public NumberGreaterThanStrategy(final Double baseNumber) {
+	public NumberGreaterThanStrategy(
+			@JsonProperty("value") final Double baseNumber) {
 		this.baseNumber = baseNumber;
 	}
 

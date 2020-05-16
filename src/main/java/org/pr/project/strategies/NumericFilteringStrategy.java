@@ -8,7 +8,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 @JsonSubTypes({
 		@JsonSubTypes.Type(value = NumberBetweenBoundsStrategy.class, name = "numberBetweenBounds"),
 		@JsonSubTypes.Type(value = NumberGreaterThanStrategy.class, name = "numberGreaterThan"),
-		@JsonSubTypes.Type(value = PossitiveNumberStrategy.class, name = "possitiveNumber")})
+		@JsonSubTypes.Type(value = PositiveNumberStrategy.class, name = "positiveNumber")})
 public interface NumericFilteringStrategy extends FilteringStrategy<Double> {
 
 }

@@ -10,10 +10,10 @@ import org.junit.Test;
 import org.pr.project.domain.City;
 import org.pr.project.domain.Match;
 import org.pr.project.domain.Match.Religion;
-import org.pr.project.strategies.IsExistStrategy;
 import org.pr.project.strategies.IsTrueStrategy;
 import org.pr.project.strategies.NumberBetweenBoundsStrategy;
-import org.pr.project.strategies.PossitiveNumberStrategy;
+import org.pr.project.strategies.PositiveNumberStrategy;
+import org.pr.project.strategies.StringIsNotNullStrategy;
 
 public class FilterTests {
 
@@ -112,7 +112,7 @@ public class FilterTests {
 
 	@Test
 	public void test_applyHasImageFilter() {
-		IsExistStrategy strategy = new IsExistStrategy();
+		StringIsNotNullStrategy strategy = new StringIsNotNullStrategy();
 		HasImageFilter hasImageFilter = new HasImageFilter(strategy);
 		List<Match> filteredMatches = hasImageFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 4);
@@ -126,7 +126,7 @@ public class FilterTests {
 
 	@Test
 	public void test_applyIsInContactFilter() {
-		PossitiveNumberStrategy possitiveNumberOnlyStrategy = new PossitiveNumberStrategy();
+		PositiveNumberStrategy possitiveNumberOnlyStrategy = new PositiveNumberStrategy();
 		IsInContactFilter isInContactFilter = new IsInContactFilter(possitiveNumberOnlyStrategy);
 		List<Match> filteredMatches = isInContactFilter.runFilter(matches);
 		assertEquals(filteredMatches.size(), 3);
@@ -174,13 +174,13 @@ public class FilterTests {
 
 	@Test
 	public void test_combinationFilters() {
-		IsExistStrategy strategy = new IsExistStrategy();
+		StringIsNotNullStrategy strategy = new StringIsNotNullStrategy();
 		HasImageFilter hasImageFilter = new HasImageFilter(strategy);
 
 		NotFilter<String> notHasImageFilter = new NotFilter(hasImageFilter);
 		assertEquals(notHasImageFilter.runFilter(matches).size(), 2);
 
-		PossitiveNumberStrategy possitiveNumberOnlyStrategy = new PossitiveNumberStrategy();
+		PositiveNumberStrategy possitiveNumberOnlyStrategy = new PositiveNumberStrategy();
 		IsInContactFilter isInContactFilter = new IsInContactFilter(possitiveNumberOnlyStrategy);
 
 		AndFilter hasImageAndInContact = new AndFilter(hasImageFilter, isInContactFilter);

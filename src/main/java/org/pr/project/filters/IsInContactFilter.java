@@ -8,17 +8,16 @@ import org.pr.project.specifications.IsInContactSpecification;
 import org.pr.project.strategies.NumericFilteringStrategy;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("isInContact")
 public class IsInContactFilter extends AbstractFilter<Double> {
 
-	private final NumericFilteringStrategy possitiveNumberStrategy;
-
 	@JsonCreator
 	public IsInContactFilter(
-			final NumericFilteringStrategy possitiveNumberStrategy) {
-		this.possitiveNumberStrategy = possitiveNumberStrategy;
+			@JsonProperty("strategy") final NumericFilteringStrategy possitiveNumberStrategy) {
+		this.strategy = possitiveNumberStrategy;
 	}
 
 	@Override
@@ -31,6 +30,7 @@ public class IsInContactFilter extends AbstractFilter<Double> {
 
 	@Override
 	public IsInContactSpecification getSpecification() {
-		return new IsInContactSpecification(possitiveNumberStrategy);
+		return new IsInContactSpecification(
+				(NumericFilteringStrategy) this.strategy);
 	}
 }
