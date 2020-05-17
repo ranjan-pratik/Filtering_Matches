@@ -9,14 +9,17 @@
 			2. Maven (3.3.0 or higher)
 						
 ### **Run Instructions :**
+
 		1. DEV Mode
 			1. Download the source-code from the master branch
 			2. Move the downloaded package to a target folder
 			3. Start your CLI on the target folder with JAVA and Maven on path
 			4. Run *'mvn clean install'* on project root path. Wait for the project to build
 			5. Navigate to *<<project-root>>/target* andl ocate the MatchFilter-0.0.1.jar.
-			6. To start the application run *java -jar MatchFilter-0.0.1.jar*
-			7. Probe health of application by hitting *http://localhost:8081/MatchFilter/actuator/health*
+			6. The default port is 8081, to change it configure the *application.properties* in *src/resources* folder. Further configurations may be changed from here.
+			7. To start the application run *java -jar MatchFilter-0.0.1.jar*
+			8. Probe health of application by hitting *http://localhost:8081/MatchFilter/actuator/health*
+		
 		2. PROD Mode
 			1. Download the jar file from *'dist'* folder
 			2. Move the downloaded package to a target folder
