@@ -23,7 +23,7 @@ public class IsFavouriteFilter extends AbstractFilter<Boolean> {
 	@Override
 	public List<Match> runFilter(final List<Match> candidates) {
 		return candidates.stream().filter(c -> {
-			return (c.getIsFavourite() != null && c.getIsFavourite());
+			return this.strategy.apply(c.getIsFavourite());
 		}).collect(Collectors.toList());
 	}
 

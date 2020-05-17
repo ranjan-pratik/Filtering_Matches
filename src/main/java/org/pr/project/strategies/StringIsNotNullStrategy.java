@@ -6,7 +6,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName("isNotNull")
+@JsonTypeName("stringIsNotNull")
 public class StringIsNotNullStrategy implements StringFilteringStrategy {
 
 	@Override

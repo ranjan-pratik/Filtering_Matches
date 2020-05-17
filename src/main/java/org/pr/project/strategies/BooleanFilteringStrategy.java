@@ -6,7 +6,7 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.PROPERTY, property = "type")
 @JsonSubTypes({
-		@JsonSubTypes.Type(value = IsTrueStrategy.class, name = "isTrue")})
+		@JsonSubTypes.Type(value = IsTrueOrFalseStrategy.class, name = "isTrueOrFalse")})
 public interface BooleanFilteringStrategy extends FilteringStrategy<Boolean> {
 
 }

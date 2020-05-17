@@ -5,17 +5,20 @@ import java.io.Serializable;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.index.IndexDirection;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Document
+// @CompoundIndex(name = "city_name_idx", def = "{ 'city.position': '2dsphere',
+// 'display_name': 1 }", unique = false)
 public class Match implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -24,7 +27,7 @@ public class Match implements Serializable {
 		Christian, Islam, Agnostic, Atheist, Buddhist, Jewish
 	}
 
-	@JsonIgnore
+	@JsonProperty(required = false, value = "match_id")
 	@Id
 	private String id;
 
@@ -57,6 +60,7 @@ public class Match implements Serializable {
 	private Boolean isFavourite;
 
 	@JsonProperty("city")
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE, additionalField = "city.location")
 	private City city;
 
 	public Match() {
@@ -78,6 +82,14 @@ public class Match implements Serializable {
 		this.contactsExchanged = contactsExchanged;
 		this.isFavourite = isFavourite;
 		this.city = city;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
 	}
 
 	public String getDisplayName() {

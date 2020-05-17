@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.geo.GeoResults;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeospatialIndex;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 import org.springframework.data.mongodb.core.query.Query;
@@ -34,6 +36,9 @@ public class CustomMatchCriteriaRepositoryImpl
 	@Override
 	public GeoResults<Match> findByCustomGeoRangeWithin(
 			final NearQuery nearQuery) {
+		mongoTemplate.indexOps(Match.class)
+				.ensureIndex(new GeospatialIndex("city.position")
+						.typed(GeoSpatialIndexType.GEO_2DSPHERE));
 		logger.debug("Finding records by geospatial query.");
 		logger.debug("Attepting to run geospatial query - "
 				+ nearQuery.toDocument().toString());

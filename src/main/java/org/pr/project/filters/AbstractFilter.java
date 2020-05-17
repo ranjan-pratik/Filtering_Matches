@@ -17,7 +17,9 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 		@JsonSubTypes.Type(value = HasImageFilter.class, name = "hasImage"),
 		@JsonSubTypes.Type(value = HeightFilter.class, name = "height"),
 		@JsonSubTypes.Type(value = IsFavouriteFilter.class, name = "isFavourite"),
-		@JsonSubTypes.Type(value = IsInContactFilter.class, name = "isInContact")})
+		@JsonSubTypes.Type(value = IsInContactFilter.class, name = "isInContact"),
+		@JsonSubTypes.Type(value = DistanceRangeInKmFilter.class, name = "distanceRangeInKm"),
+		@JsonSubTypes.Type(value = NotFilter.class, name = "not")})
 public abstract class AbstractFilter<T> {
 
 	public FilteringStrategy<T> strategy;

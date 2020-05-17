@@ -1,19 +1,26 @@
 package org.pr.project.specifications;
 
-import org.springframework.data.geo.Distance;
-import org.springframework.data.geo.Metrics;
-import org.springframework.data.geo.Point;
+import org.apache.commons.lang3.NotImplementedException;
+import org.pr.project.domain.City;
+import org.pr.project.strategies.DistanceFilteringStrategy;
+import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.NearQuery;
 
-public final class RangeInKmSpecification {
+public class RangeInKmSpecification extends AbstractSpecification<City> {
 
-	public NearQuery getNearQuery(final String field, final Point centre,
-			final Double lowerBoundInclusive,
-			final Double upperBoundInclusive) {
-		return NearQuery.near(centre)
-				.minDistance(
-						new Distance(lowerBoundInclusive, Metrics.KILOMETERS))
-				.maxDistance(
-						new Distance(upperBoundInclusive, Metrics.KILOMETERS));
+	public RangeInKmSpecification(
+			final DistanceFilteringStrategy distanceRangeBetweenBoundsStrategy) {
+		this.field = "distance";
+		this.strategy = distanceRangeBetweenBoundsStrategy;
+	}
+
+	public NearQuery getNearQuery() {
+		return ((DistanceFilteringStrategy) this.strategy).apply();
+	}
+
+	@Override
+	public Criteria getCriteria() {
+		throw new NotImplementedException(
+				"GeoSpatial Specifications do notimplement this mentod.");
 	}
 }

@@ -60,6 +60,8 @@ public class FilterRepositoryTests {
 		List<Match> matches = matchFilterRepository.findAll();
 		assertThat(matches).isNotNull();
 		assertThat(matches.size()).isEqualTo(1);
+		assertThat(matches.get(0).getId()).isNotNull();
+		System.out.println(matches.get(0).getId());
 		assertThat(matches.get(0).getDisplayName()).isEqualTo("Candidate1");
 		assertThat(matches.get(0).getCity().getName()).isEqualTo("someCity");
 		assertThat(matches.get(0).getCity().getLat()).isEqualTo(51.509865);

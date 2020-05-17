@@ -8,28 +8,28 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
-@JsonTypeName("numberGreaterThan")
-public class NumberGreaterThanStrategy implements NumericFilteringStrategy {
+@JsonTypeName("numberEqualTo")
+public class NumberEqualToStrategy implements NumericFilteringStrategy {
 
 	private final Double baseNumber;
 
 	@JsonCreator
-	public NumberGreaterThanStrategy(
+	public NumberEqualToStrategy(
 			@JsonProperty("value") final Double baseNumber) {
 		this.baseNumber = baseNumber;
 	}
 
 	@Override
 	public boolean apply(final Double candidate) {
-		if (candidate == null || baseNumber == null)
+		if (candidate == null)
 			return false;
-		return candidate > baseNumber;
+		return candidate.equals(baseNumber);
 	}
 
 	@Override
 	public List<Criteria> apply(final String field,
 			final List<Criteria> original) {
-		original.add(Criteria.where(field).gt(baseNumber));
+		original.add(Criteria.where(field).is(baseNumber));
 		return original;
 	}
 }

@@ -23,7 +23,7 @@ import org.pr.project.filters.CompatibilityFilter;
 import org.pr.project.filters.HeightFilter;
 import org.pr.project.filters.IsFavouriteFilter;
 import org.pr.project.service.MatchFilterService;
-import org.pr.project.strategies.IsTrueStrategy;
+import org.pr.project.strategies.IsTrueOrFalseStrategy;
 import org.pr.project.strategies.NumberBetweenBoundsStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
@@ -159,7 +159,7 @@ public class RestLayerTests {
 		CompatibilityFilter compatibilityFilter = new CompatibilityFilter(
 				new NumberBetweenBoundsStrategy(new Double(0.3),
 						new Double(0.7)));
-		IsTrueStrategy isTrueStrategy = new IsTrueStrategy();
+		IsTrueOrFalseStrategy isTrueStrategy = new IsTrueOrFalseStrategy(true);
 		IsFavouriteFilter isFavouriteFilter = new IsFavouriteFilter(
 				isTrueStrategy);
 

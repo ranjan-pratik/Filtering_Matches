@@ -4,10 +4,10 @@ import java.io.InputStream;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.pr.project.domain.FilteredListVO;
 import org.pr.project.domain.Match;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -60,7 +60,7 @@ public class MatchFilterDBConfigs {
 
 	public class CustomJackson2ResourceReader implements ResourceReader {
 
-		private final Logger logger = LoggerFactory
+		private final Logger logger = LogManager
 				.getLogger(CustomJackson2ResourceReader.class);
 
 		private final Jackson2ResourceReader resourceReader = new Jackson2ResourceReader();

@@ -10,10 +10,6 @@ public abstract class AbstractSpecification<T> {
 
 	public abstract Criteria getCriteria();
 
-	public String getField() {
-		return field;
-	}
-
 	public FilteringStrategy<T> getStrategy() {
 		return strategy;
 	}
