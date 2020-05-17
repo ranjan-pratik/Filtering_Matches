@@ -18,11 +18,11 @@ import org.pr.project.specifications.HasImageSpecification;
 import org.pr.project.specifications.HeightSpecification;
 import org.pr.project.specifications.IsFavouriteSpecification;
 import org.pr.project.specifications.IsInContactSpecification;
-import org.pr.project.strategies.IsExistStrategy;
-import org.pr.project.strategies.IsTrueStrategy;
+import org.pr.project.strategies.IsTrueOrFalseStrategy;
 import org.pr.project.strategies.NumberBetweenBoundsStrategy;
 import org.pr.project.strategies.NumericFilteringStrategy;
-import org.pr.project.strategies.PossitiveNumberStrategy;
+import org.pr.project.strategies.PositiveNumberStrategy;
+import org.pr.project.strategies.StringIsNotNullStrategy;
 import org.pr.project.utils.FileReaderUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -220,7 +220,7 @@ public class FilterRepoWithStrategyTests {
 				.findByCustomCriteria(query);
 		System.out.println(query.getCriteriaObject().toString() + " found -"
 				+ expected.size());
-		IsExistStrategy fileringStartegy = new IsExistStrategy();
+		StringIsNotNullStrategy fileringStartegy = new StringIsNotNullStrategy();
 		HasImageSpecification specification = new HasImageSpecification(
 				fileringStartegy);
 		Criteria crit = specification.getCriteria();
@@ -236,7 +236,7 @@ public class FilterRepoWithStrategyTests {
 				.findByCustomCriteria(query);
 		System.out.println(query.getCriteriaObject().toString() + " found -"
 				+ expected.size());
-		NumericFilteringStrategy fileringStartegy = new PossitiveNumberStrategy();
+		NumericFilteringStrategy fileringStartegy = new PositiveNumberStrategy();
 		IsInContactSpecification specification = new IsInContactSpecification(
 				fileringStartegy);
 		Criteria crit = specification.getCriteria();
@@ -266,7 +266,8 @@ public class FilterRepoWithStrategyTests {
 				.findByCustomCriteria(query);
 		System.out.println(query.getCriteriaObject().toString() + " found -"
 				+ expected.size());
-		IsTrueStrategy fileringStartegy = new IsTrueStrategy();
+		IsTrueOrFalseStrategy fileringStartegy = new IsTrueOrFalseStrategy(
+				true);
 		IsFavouriteSpecification specification = new IsFavouriteSpecification(
 				fileringStartegy);
 		Criteria crit = specification.getCriteria();
@@ -289,7 +290,8 @@ public class FilterRepoWithStrategyTests {
 				":::: Local Crieria - " + query.getCriteriaObject().toString()
 						+ " found -" + expected.size());
 
-		IsTrueStrategy isTrueFileringStartegy = new IsTrueStrategy();
+		IsTrueOrFalseStrategy isTrueFileringStartegy = new IsTrueOrFalseStrategy(
+				true);
 		IsFavouriteSpecification isTrueSpecification = new IsFavouriteSpecification(
 				isTrueFileringStartegy);
 

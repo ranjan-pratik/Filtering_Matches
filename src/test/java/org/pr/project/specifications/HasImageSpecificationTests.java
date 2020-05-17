@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.pr.project.strategies.IsExistStrategy;
+import org.pr.project.strategies.StringIsNotNullStrategy;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 public class HasImageSpecificationTests {
 
 	@Test
 	public void test_hasImageSpecification() {
-		IsExistStrategy fileringStartegy = new IsExistStrategy();
+		StringIsNotNullStrategy fileringStartegy = new StringIsNotNullStrategy();
 		HasImageSpecification specification = new HasImageSpecification(fileringStartegy);
 		Criteria crit = specification.getCriteria();
 		assertThat(crit).isNotNull();

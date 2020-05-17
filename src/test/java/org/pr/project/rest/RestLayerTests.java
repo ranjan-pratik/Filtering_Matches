@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mockito;
-import org.pr.project.MatchFilterApplication;
 import org.pr.project.domain.City;
 import org.pr.project.domain.FiltersVO;
 import org.pr.project.domain.Match;
@@ -24,12 +23,13 @@ import org.pr.project.filters.CompatibilityFilter;
 import org.pr.project.filters.HeightFilter;
 import org.pr.project.filters.IsFavouriteFilter;
 import org.pr.project.service.MatchFilterService;
-import org.pr.project.strategies.IsTrueStrategy;
+import org.pr.project.strategies.IsTrueOrFalseStrategy;
 import org.pr.project.strategies.NumberBetweenBoundsStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.mongo.embedded.EmbeddedMongoAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -44,8 +44,8 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(FilterController.class)
-@ContextConfiguration(classes = {MatchFilterApplication.class,
-		EmbeddedMongoAutoConfiguration.class})
+@ContextConfiguration(classes = {EmbeddedMongoAutoConfiguration.class})
+@ComponentScan(basePackages = "org.pr.project.rest")
 public class RestLayerTests {
 
 	@Autowired
@@ -91,7 +91,7 @@ public class RestLayerTests {
 
 		Mockito.when(filterMatcherService.getAllMatches()).thenReturn(matches);
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/filters/filteredMatches")
+		mockMvc.perform(MockMvcRequestBuilders.post("/filters/filteredMatches")
 				.contentType(MediaType.APPLICATION_JSON)).andDo(print())
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.matches").isArray())
@@ -110,7 +110,7 @@ public class RestLayerTests {
 		final ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		final String requestJson = ow.writeValueAsString(new FiltersVO());
 
-		mockMvc.perform(MockMvcRequestBuilders.get("/filters/filteredMatches")
+		mockMvc.perform(MockMvcRequestBuilders.post("/filters/filteredMatches")
 				.contentType(MediaType.APPLICATION_JSON).content(requestJson))
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.matches").isArray())
@@ -140,7 +140,7 @@ public class RestLayerTests {
 		final ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		final String requestJson = ow.writeValueAsString(ageFilterOnlyVO);
 		System.out.println(requestJson);
-		mockMvc.perform(MockMvcRequestBuilders.get("/filters/filteredMatches")
+		mockMvc.perform(MockMvcRequestBuilders.post("/filters/filteredMatches")
 				.contentType(MediaType.APPLICATION_JSON).content(requestJson))
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.matches").isArray())
@@ -159,7 +159,7 @@ public class RestLayerTests {
 		CompatibilityFilter compatibilityFilter = new CompatibilityFilter(
 				new NumberBetweenBoundsStrategy(new Double(0.3),
 						new Double(0.7)));
-		IsTrueStrategy isTrueStrategy = new IsTrueStrategy();
+		IsTrueOrFalseStrategy isTrueStrategy = new IsTrueOrFalseStrategy(true);
 		IsFavouriteFilter isFavouriteFilter = new IsFavouriteFilter(
 				isTrueStrategy);
 
@@ -183,7 +183,7 @@ public class RestLayerTests {
 		final ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
 		final String requestJson = ow.writeValueAsString(ageFilterOnlyVO);
 		System.out.println(requestJson);
-		mockMvc.perform(MockMvcRequestBuilders.get("/filters/filteredMatches")
+		mockMvc.perform(MockMvcRequestBuilders.post("/filters/filteredMatches")
 				.contentType(MediaType.APPLICATION_JSON).content(requestJson))
 				.andDo(print()).andExpect(status().isOk())
 				.andExpect(jsonPath("$.matches").isArray())

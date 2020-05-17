@@ -5,22 +5,19 @@ import java.util.List;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("numberBetweenBounds")
 public class NumberBetweenBoundsStrategy implements NumericFilteringStrategy {
 
-	protected final Double lowerBound;
-	protected final Double upperBound;
-
-	public NumberBetweenBoundsStrategy() {
-		lowerBound = new Double(Integer.MIN_VALUE);
-		upperBound = new Double(Integer.MAX_VALUE);
-	}
+	public final Double lowerBound;
+	public final Double upperBound;
 
 	@JsonCreator
-	public NumberBetweenBoundsStrategy(final Double lowerBoundInclusive,
-			final Double upperBoundInclusive) {
+	public NumberBetweenBoundsStrategy(
+			@JsonProperty("lowerBound") final Double lowerBoundInclusive,
+			@JsonProperty("upperBound") final Double upperBoundInclusive) {
 		lowerBound = lowerBoundInclusive;
 		upperBound = upperBoundInclusive;
 	}

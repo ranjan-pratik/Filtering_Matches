@@ -8,28 +8,29 @@ import org.pr.project.specifications.IsFavouriteSpecification;
 import org.pr.project.strategies.BooleanFilteringStrategy;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("isFavourite")
 public class IsFavouriteFilter extends AbstractFilter<Boolean> {
 
-	private final BooleanFilteringStrategy isTrueSrategy;
-
 	@JsonCreator
-	public IsFavouriteFilter(final BooleanFilteringStrategy isTrueSrategy) {
-		this.isTrueSrategy = isTrueSrategy;
+	public IsFavouriteFilter(
+			@JsonProperty("strategy") final BooleanFilteringStrategy isTrueSrategy) {
+		this.strategy = isTrueSrategy;
 	}
 
 	@Override
 	public List<Match> runFilter(final List<Match> candidates) {
 		return candidates.stream().filter(c -> {
-			return (c.getIsFavourite() != null && c.getIsFavourite());
+			return this.strategy.apply(c.getIsFavourite());
 		}).collect(Collectors.toList());
 	}
 
 	@Override
 	public IsFavouriteSpecification getSpecification() {
-		return new IsFavouriteSpecification(isTrueSrategy);
+		return new IsFavouriteSpecification(
+				(BooleanFilteringStrategy) this.strategy);
 	}
 
 }

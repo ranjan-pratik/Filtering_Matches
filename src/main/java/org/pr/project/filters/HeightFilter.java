@@ -8,30 +8,29 @@ import org.pr.project.specifications.HeightSpecification;
 import org.pr.project.strategies.NumericFilteringStrategy;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 
 @JsonTypeName("height")
 public class HeightFilter extends AbstractFilter<Double> {
 
-	private final NumericFilteringStrategy heightBetweenBoundsFilteringStrategy;
-
 	@JsonCreator
 	public HeightFilter(
-			final NumericFilteringStrategy heightBetweenBoundsStategy) {
-		heightBetweenBoundsFilteringStrategy = heightBetweenBoundsStategy;
+			@JsonProperty("strategy") final NumericFilteringStrategy heightBetweenBoundsStategy) {
+		this.strategy = heightBetweenBoundsStategy;
 	}
 
 	@Override
 	public List<Match> runFilter(final List<Match> candidates) {
 		return candidates.stream().filter(c -> {
-			return heightBetweenBoundsFilteringStrategy
-					.apply(new Double(c.getHeight()));
+			return this.strategy.apply(new Double(c.getHeight()));
 		}).collect(Collectors.toList());
 	}
 
 	@Override
 	public HeightSpecification getSpecification() {
-		return new HeightSpecification(heightBetweenBoundsFilteringStrategy);
+		return new HeightSpecification(
+				(NumericFilteringStrategy) this.strategy);
 	}
 
 }

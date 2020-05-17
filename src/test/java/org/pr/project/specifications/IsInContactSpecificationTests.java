@@ -6,14 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
-import org.pr.project.strategies.PossitiveNumberStrategy;
+import org.pr.project.strategies.PositiveNumberStrategy;
 import org.springframework.data.mongodb.core.query.Criteria;
 
 public class IsInContactSpecificationTests {
 
 	@Test
 	public void test_IsInContactSpecification() {
-		PossitiveNumberStrategy fileringStartegy = new PossitiveNumberStrategy();
+		PositiveNumberStrategy fileringStartegy = new PositiveNumberStrategy();
 		IsInContactSpecification specification = new IsInContactSpecification(fileringStartegy);
 		Criteria crit = specification.getCriteria();
 		assertThat(crit).isNotNull();

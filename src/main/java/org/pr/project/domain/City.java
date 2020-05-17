@@ -5,6 +5,8 @@ import java.io.Serializable;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.data.mongodb.core.index.CompoundIndex;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +33,7 @@ public class City implements Serializable {
 	private Double lon;
 
 	@JsonIgnore
+	@GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
 	private Double[] position = new Double[2];
 
 	public City() {
