@@ -4,7 +4,16 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.pr.project</groupId>
 	<artifactId>MatchFilter</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
+	<packaging>jar</packaging>
+
+	<name>MatchFilteringApp</name>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
 
 	<!-- Inherit defaults from Spring Boot -->
 	<parent>
@@ -15,6 +24,10 @@
 
 	<!-- Add typical dependencies for a web application -->
 	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
