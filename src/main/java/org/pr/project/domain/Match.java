@@ -17,8 +17,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Component
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 @Document
-// @CompoundIndex(name = "city_name_idx", def = "{ 'city.position': '2dsphere',
-// 'display_name': 1 }", unique = false)
 public class Match implements Serializable {
 
 	private static final long serialVersionUID = 1L;

@@ -36,16 +36,20 @@ public class CustomMatchCriteriaRepositoryImpl
 	@Override
 	public GeoResults<Match> findByCustomGeoRangeWithin(
 			final NearQuery nearQuery) {
-		mongoTemplate.indexOps(Match.class)
-				.ensureIndex(new GeospatialIndex("city.position")
-						.typed(GeoSpatialIndexType.GEO_2DSPHERE));
 		logger.debug("Finding records by geospatial query.");
 		logger.debug("Attepting to run geospatial query - "
 				+ nearQuery.toDocument().toString());
+		this.ensureGeoIndex();
 		final GeoResults<Match> geoRes = mongoTemplate.geoNear(nearQuery,
 				Match.class);
 		logger.debug("Geospatial query returned [" + geoRes.getContent().size()
 				+ "] records.");
 		return geoRes;
+	}
+
+	private void ensureGeoIndex() {
+		mongoTemplate.indexOps(Match.class)
+				.ensureIndex(new GeospatialIndex("city.position")
+						.typed(GeoSpatialIndexType.GEO_2DSPHERE));
 	}
 }
