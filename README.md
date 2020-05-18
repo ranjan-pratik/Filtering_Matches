@@ -12,18 +12,18 @@
 
 		1. DEV Mode
 			1. Download the source-code from the master branch
-			2. Move the downloaded package to a target folder
-			3. Start your CLI on the target folder with JAVA and Maven on path
-			4. Run *'mvn clean install'* on project root path. Wait for the project to build
-			5. Navigate to *<<project-root>>/target* andl ocate the MatchFilter-0.0.1.jar.
-			6. The default port is 8081, to change it configure the *application.properties* in *src/resources* folder. Further configurations may be changed from here.
+			2. Move the downloaded package to a desired *project* folder
+			3. Start your CLI on the *project* folder with JAVA JDK and Maven on Path
+			4. Run *'mvn clean install'* on project root path. Wait for the project to build.
+			5. Navigate to *<<project-root>>/target* and locate the MatchFilter-0.0.1.jar.
+			6. The default port is 8081, to change it configure the *application.properties* in *src/resources* folder. Further configurations may be changed from here. **If the port is changed, the same has to be updated in the *angular-ui project >> src >> environments >> environement fles* as well.** And the project wouldneed to be re-built using command *ng build* or *ng build --prod*
 			7. To start the application run *java -jar MatchFilter-0.0.1.jar*
 			8. Probe health of application by hitting *http://localhost:8081/MatchFilter/actuator/health*
 		
 		2. PROD Mode
-			1. Download the jar file from *'dist'* folder
-			2. Move the downloaded package to a target folder
-			3. Start your CLI on the target folder with JAVA on path
+			1. Download the jar file from *'dist'* folder.
+			2. Move the downloaded package to a desired *project* folder
+			3. Start your CLI on the *project* folder with JAVA on Path
 			4. To check your JAVA installation run *java -version*
 			5. To start the application run *java -jar MatchFilter-0.0.1.jar*
 			6. Probe health of application by hitting *http://localhost:8081/MatchFilter/actuator/health*

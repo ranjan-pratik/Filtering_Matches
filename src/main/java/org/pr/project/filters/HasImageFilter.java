@@ -23,13 +23,14 @@ public class HasImageFilter extends AbstractFilter<String> {
 	@Override
 	public List<Match> runFilter(final List<Match> candidates) {
 		return candidates.stream().filter(c -> {
-			return (c.getPhotoURI() != null && c.getPhotoURI().length() > 0);
+			return (strategy.apply(c.getPhotoURI()));
 		}).collect(Collectors.toList());
 	}
 
 	@Override
 	public HasImageSpecification getSpecification() {
-		return new HasImageSpecification((StringIsNotNullStrategy) this.strategy);
+		return new HasImageSpecification(
+				(StringIsNotNullStrategy) this.strategy);
 	}
 
 }

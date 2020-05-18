@@ -5,7 +5,6 @@ public class DistanceOnSurfaceUtility {
 	public static double calculateDistanceinKm(final double lat1,
 			final double lon1, final double lat2, final double lon2) {
 
-		// degrees to radians.
 		final double tlon1 = Math.toRadians(lon1);
 		final double tlon2 = Math.toRadians(lon2);
 		final double tlat1 = Math.toRadians(lat1);

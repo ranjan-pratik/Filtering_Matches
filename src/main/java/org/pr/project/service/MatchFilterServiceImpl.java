@@ -19,7 +19,7 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service()
+@Service
 public class MatchFilterServiceImpl implements MatchFilterService {
 
 	private static final Logger logger = LoggerFactory
@@ -32,7 +32,7 @@ public class MatchFilterServiceImpl implements MatchFilterService {
 	@Transactional
 	public List<Match> getAllMatches() {
 		logger.info("No filters applied. Getting all matches.");
-		final List<Match> allMatches = matchFilterRepository.findAll();
+		final List<Match> allMatches = this.matchFilterRepository.findAll();
 		if (allMatches == null)
 			return new ArrayList<Match>();
 		return allMatches;
@@ -44,7 +44,6 @@ public class MatchFilterServiceImpl implements MatchFilterService {
 		if (filters != null && filters.size() > 0) {
 			logger.info("Getting filtered matches.");
 			final List<AbstractSpecification> allSpecification = new ArrayList<>();
-			boolean geoSpatialSpecificationPresent = false;
 			DistanceRangeInKmFilter distanceRangeFilter = null;
 			for (final AbstractFilter filterToApply : filters) {
 				if (filterToApply instanceof DistanceRangeInKmFilter) {
@@ -59,29 +58,36 @@ public class MatchFilterServiceImpl implements MatchFilterService {
 					"Processed final criteria ::" + allSpecificationsWithAnd
 							.getCriteria().getCriteriaObject().toString());
 			if (distanceRangeFilter == null) {
-				return matchFilterRepository.findByCustomCriteria(
+				return this.matchFilterRepository.findByCustomCriteria(
 						allSpecificationsWithAnd.getCriteria());
 			} else {
-				NearQuery nearQry = distanceRangeFilter.getSpecification()
-						.getNearQuery();
-				if (allSpecification.size() > 0) {
-					Query allOthers = new Query(
-							allSpecificationsWithAnd.getCriteria());
-					nearQry.query(allOthers);
-				}
-				GeoResults<Match> geoResults = matchFilterRepository
-						.findByCustomGeoRangeWithin(nearQry);
-
-				List<Match> result = new ArrayList<Match>();
-				List<GeoResult<Match>> geoResultContent = geoResults
-						.getContent();
-				for (GeoResult<Match> m : geoResultContent) {
-					result.add(m.getContent());
-				}
-				return result;
+				return this.findWithGeoQuery(allSpecification,
+						distanceRangeFilter, allSpecificationsWithAnd);
 			}
 		}
-		return getAllMatches();
+		return this.getAllMatches();
+	}
+
+	private List<Match> findWithGeoQuery(
+			final List<AbstractSpecification> allSpecification,
+			final DistanceRangeInKmFilter distanceRangeFilter,
+			final AbstractSpecification allSpecificationsWithAnd) {
+		final NearQuery nearQry = distanceRangeFilter.getSpecification()
+				.getNearQuery();
+		if (allSpecification.size() > 0) {
+			final Query allOthers = new Query(
+					allSpecificationsWithAnd.getCriteria());
+			nearQry.query(allOthers);
+		}
+		final GeoResults<Match> geoResults = this.matchFilterRepository
+				.findByCustomGeoRangeWithin(nearQry);
+
+		final List<Match> result = new ArrayList<Match>();
+		final List<GeoResult<Match>> geoResultContent = geoResults.getContent();
+		for (final GeoResult<Match> m : geoResultContent) {
+			result.add(m.getContent());
+		}
+		return result;
 	}
 
 }

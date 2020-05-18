@@ -12,7 +12,6 @@ public class FiltersVO implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@JsonProperty(value = "appliedFilters")
-	// @JsonDeserialize(contentUsing = NamedPolymorphicDeserializer.class)
 	private List<AbstractFilter> appliedFilters;
 
 	public List<AbstractFilter> getAppliedFilters() {

@@ -32,14 +32,12 @@ public class NumberBetweenBoundsStrategy implements NumericFilteringStrategy {
 
 	@Override
 	public boolean apply(final Double candidate) {
-		// if no bound is set, return true, even if candidate is null
 		if (new Double(Integer.MIN_VALUE).compareTo(lowerBound) == 0
 				&& new Double(Integer.MAX_VALUE).compareTo(upperBound) == 0) {
 			return true;
 		}
 		if (candidate == null)
 			return false;
-		// if candidate is between the date range, return true
 		if (lowerBound.compareTo(candidate) > 0) {
 			return false;
 		} else if (upperBound.compareTo(candidate) < 0) {
