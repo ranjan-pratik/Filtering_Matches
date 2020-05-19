@@ -22,15 +22,16 @@
 		   ** And the project would need to be re-built using command *npm run-script build* or *npm run-script build --prod*. For more instructions,
 		   refer to the README.MD on UI project.
 		7. To start the application run *java -jar MatchFilter-0.0.1.jar*
-		8. Probe health of application by hitting *http://localhost:8081/MatchFilter/actuator/health*
+		8. Probe health of application by hitting *http://localhost:8089/MatchFilter/actuator/health*
 		
+
 	2. PROD Mode
 		1. Download the jar file from *'dist'* folder.
 		2. Move the downloaded package to a desired *project* folder
 		3. Start your CLI on the *project* folder with JAVA JDK on path. (Ensure that the JAVA_HOME points to the JDK and not the JRE)
 		4. To check your JAVA installation run *java -version*
 		5. To start the application run *java -jar MatchFilter-0.0.1.jar*
-		6. Probe health of application by hitting *http://localhost:8081/MatchFilter/actuator/health*
+		6. Probe health of application by hitting *http://localhost:8089/MatchFilter/actuator/health*
 			
 			
 ### **Assumptions**
