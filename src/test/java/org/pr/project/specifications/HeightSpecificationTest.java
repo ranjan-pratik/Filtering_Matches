@@ -90,4 +90,12 @@ public class HeightSpecificationTest {
 		unexpected.add("90.55");
 		assertThat(crit.getCriteriaObject().toString()).doesNotContain(unexpected);
 	}
+	
+	@Test
+	public void test_heightSpecWhenNoStrategy() {
+		HeightSpecification specification = new HeightSpecification(null);
+		Criteria crit = specification.getCriteria();
+		assertThat(crit).isNotNull();
+		assertThat(crit.getKey()).isNull();
+	}
 }

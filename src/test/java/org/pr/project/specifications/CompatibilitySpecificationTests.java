@@ -90,4 +90,12 @@ public class CompatibilitySpecificationTests {
 		unexpected.add("90.55");
 		assertThat(crit.getCriteriaObject().toString()).doesNotContain(unexpected);
 	}
+	
+	@Test
+	public void test_compatibilitySpecWhenNoStrategy() {
+		CompatibilitySpecification specification = new CompatibilitySpecification(null);
+		Criteria crit = specification.getCriteria();
+		assertThat(crit).isNotNull();
+		assertThat(crit.getKey()).isNull();
+	}
 }

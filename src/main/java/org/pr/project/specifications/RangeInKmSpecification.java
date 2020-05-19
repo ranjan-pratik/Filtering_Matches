@@ -15,6 +15,7 @@ public class RangeInKmSpecification extends AbstractSpecification<City> {
 	}
 
 	public NearQuery getNearQuery() {
+		if (strategy == null) return null;
 		return ((DistanceFilteringStrategy) this.strategy).apply();
 	}
 

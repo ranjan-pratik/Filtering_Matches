@@ -23,4 +23,12 @@ public class HasImageSpecificationTests {
 		assertThat(crit.getCriteriaObject().toString()).contains(expected);
 	}
 	
+	@Test
+	public void test_hasImageSpecWhenNoStrategy() {
+		HasImageSpecification specification = new HasImageSpecification(null);
+		Criteria crit = specification.getCriteria();
+		assertThat(crit).isNotNull();
+		assertThat(crit.getKey()).isNull();
+	}
+	
 }

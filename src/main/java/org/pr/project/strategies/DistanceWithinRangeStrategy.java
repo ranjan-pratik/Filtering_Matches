@@ -53,6 +53,14 @@ public class DistanceWithinRangeStrategy implements DistanceFilteringStrategy {
 
 	@Override
 	public NearQuery apply() {
+		if (lowerBound == null && upperBound == null) return null;
+		if (lowerBound == null) {
+			return NearQuery.near(new Point(thisLat, thisLon))
+					.maxDistance(new Distance(upperBound, Metrics.KILOMETERS));
+		} else if (upperBound == null) {
+			return NearQuery.near(new Point(thisLat, thisLon))
+					.minDistance(new Distance(lowerBound, Metrics.KILOMETERS));
+		}
 		return NearQuery.near(new Point(thisLat, thisLon))
 				.minDistance(new Distance(lowerBound, Metrics.KILOMETERS))
 				.maxDistance(new Distance(upperBound, Metrics.KILOMETERS));

@@ -42,5 +42,13 @@ public class IsFavouriteStrategyTests {
 		System.out.println(crit.getCriteriaObject().toString());
 		assertThat(crit.getCriteriaObject().toString()).contains(expected);
 	}
+	
+	@Test
+	public void test_IsFavouriteSpecWhenNoStrategy() {
+		IsFavouriteSpecification specification = new IsFavouriteSpecification(null);
+		Criteria crit = specification.getCriteria();
+		assertThat(crit).isNotNull();
+		assertThat(crit.getKey()).isNull();
+	}
 
 }
