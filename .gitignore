@@ -6,3 +6,6 @@
 /target/
 /.externalToolBuilders/
 /.settings/
+/.idea/
+MatchFilter.iml
+match_filtering_app_log_file.log

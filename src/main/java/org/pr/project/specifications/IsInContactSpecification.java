@@ -16,6 +16,7 @@ public class IsInContactSpecification extends AbstractSpecification<Double> {
 
 	@Override
 	public Criteria getCriteria() {
+		if (strategy == null) return new Criteria();
 		List<Criteria> andCriteria = new ArrayList<>();
 		andCriteria = strategy.apply(field, andCriteria);
 		if (andCriteria.size() == 0) {

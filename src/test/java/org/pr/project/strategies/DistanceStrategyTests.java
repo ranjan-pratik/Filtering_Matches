@@ -40,4 +40,40 @@ public class DistanceStrategyTests {
 		assertFalse(distanceInRange.apply(
 				new City("some city here", new Double(67), new Double(60))));
 	}
+	
+	@Test
+	public void test_applyDistanceWithinRangeStrategy_LowerBound() {
+		DistanceFilteringStrategy distanceInRange = new DistanceWithinRangeStrategy(
+				50d, 60d, 0d, null);
+		assertFalse(distanceInRange
+				.apply(new City("some city", new Double(50), new Double(60))));
+		assertFalse(distanceInRange.apply(null));
+		assertFalse(distanceInRange.apply(
+				new City("some other city", new Double(50), new Double(98))));
+		assertFalse(distanceInRange.apply(
+				new City("some diff city", new Double(50), new Double(98))));
+		assertFalse(distanceInRange.apply(
+				new City("some city there", new Double(89), new Double(60))));
+		assertFalse(distanceInRange.apply(
+				new City("some city here", new Double(67), new Double(60))));
+	}
+	
+	@Test
+	public void test_applyDistanceWithinRangeStrategy_UpperBound() {
+		City thisCity = new City("some city", new Double(50), new Double(60));
+		DistanceFilteringStrategy distanceInRange = new DistanceWithinRangeStrategy(
+				50d, 60d, null, 1d);
+		assertFalse(distanceInRange.apply(thisCity));
+		assertFalse(distanceInRange
+				.apply(new City("some city", new Double(50), new Double(60))));
+		assertFalse(distanceInRange.apply(null));
+		assertFalse(distanceInRange.apply(
+				new City("some other city", new Double(50), new Double(98))));
+		assertFalse(distanceInRange.apply(
+				new City("some diff city", new Double(50), new Double(98))));
+		assertFalse(distanceInRange.apply(
+				new City("some city there", new Double(89), new Double(60))));
+		assertFalse(distanceInRange.apply(
+				new City("some city here", new Double(67), new Double(60))));
+	}
 }

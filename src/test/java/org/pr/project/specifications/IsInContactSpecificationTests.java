@@ -22,4 +22,12 @@ public class IsInContactSpecificationTests {
 		expected.add("$gt=0.0");
 		assertThat(crit.getCriteriaObject().toString()).contains(expected);
 	}
+	
+	@Test
+	public void test_IsInContactSpecWhenNoStrategy() {
+		IsInContactSpecification specification = new IsInContactSpecification(null);
+		Criteria crit = specification.getCriteria();
+		assertThat(crit).isNotNull();
+		assertThat(crit.getKey()).isNull();
+	}
 }

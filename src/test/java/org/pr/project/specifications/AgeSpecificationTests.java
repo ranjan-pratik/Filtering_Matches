@@ -90,4 +90,12 @@ public class AgeSpecificationTests {
 		unexpected.add("20");
 		assertThat(crit.getCriteriaObject().toString()).doesNotContain(unexpected);
 	}
+	
+	@Test
+	public void test_ageSpecWhenNoStrategy() {
+		AgeSpecification specification = new AgeSpecification(null);
+		Criteria crit = specification.getCriteria();
+		assertThat(crit).isNotNull();
+		assertThat(crit.getKey()).isNull();
+	}
 }
