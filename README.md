@@ -23,7 +23,7 @@
 		2. PROD Mode
 			1. Download the jar file from *'dist'* folder.
 			2. Move the downloaded package to a desired *project* folder
-			3. Start your CLI on the *project* folder with JAVA on Path
+			3. Start your CLI on the *project* folder with JAVA (JDK) on Path
 			4. To check your JAVA installation run *java -version*
 			5. To start the application run *java -jar MatchFilter-0.0.1.jar*
 			6. Probe health of application by hitting *http://localhost:8081/MatchFilter/actuator/health*
