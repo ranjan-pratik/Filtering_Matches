@@ -23,6 +23,7 @@
 		   refer to the README.MD on UI project.
 		7. To start the application run *java -jar MatchFilter-0.0.1.jar*
 		8. Probe health of application by hitting *http://localhost:8089/MatchFilter/actuator/health*
+		9. The logs will written in a file at the root *project* folder. This is a configurable behaviour by a change in *application.properties* file.
 		
 
 	2. PROD Mode
@@ -32,6 +33,7 @@
 		4. To check your JAVA installation run *java -version*
 		5. To start the application run *java -jar MatchFilter-0.0.1.jar*
 		6. Probe health of application by hitting *http://localhost:8089/MatchFilter/actuator/health*
+		7. The logs will written in a file at the root *project* folder. This is a configurable behaviour by a change in *application.properties* file.
 			
 			
 ### **Assumptions**
